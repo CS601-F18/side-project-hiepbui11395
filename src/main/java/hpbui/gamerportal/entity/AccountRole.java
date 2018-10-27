@@ -8,20 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "gamer_portal.account_game")
-public class AccountGame {
+@Table(name = "gamer_portal.account_role")
+public class AccountRole {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private int idAccount;
 	
-	@Column(nullable = false)
-	private int idGame;
-	
-	@Column(length = 1, nullable = false)
-	private boolean active;
+	@Column(nullable=false)
+	private int idRole;
 
 	public int getId() {
 		return id;
@@ -39,20 +36,12 @@ public class AccountGame {
 		this.idAccount = idAccount;
 	}
 
-	public int getIdGame() {
-		return idGame;
+	public int getIdRole() {
+		return idRole;
 	}
 
-	public void setIdGame(int idGame) {
-		this.idGame = idGame;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setIdRole(int idRole) {
+		this.idRole = idRole;
 	}
 	
 }

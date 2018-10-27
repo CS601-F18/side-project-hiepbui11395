@@ -1,67 +1,72 @@
 package hpbui.gamerportal.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import hpbui.gamerportal.service.UserDetailsServiceImpl;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
-    UserDetailsServiceImpl userDetailsService;
- 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
-    }
- 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
- 
-        // Sét đặt dịch vụ để tìm kiếm User trong Database.
-        // Và sét đặt PasswordEncoder.
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
- 
+    private DataSource dataSource;
+
+    @Value("${spring.queries.users-query}")
+    private String usersQuery;
+
+    @Value("${spring.queries.roles-query}")
+    private String rolesQuery;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
+        auth.
+                jdbcAuthentication()
+                .usersByUsernameQuery(usersQuery)
+                .authoritiesByUsernameQuery(rolesQuery)
+                .dataSource(dataSource)
+                .passwordEncoder(bCryptPasswordEncoder);
     }
- 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
- 
-        http.csrf().disable();
- 
-        // Các yêu cầu phải login với vai trò ROLE_EMPLOYEE hoặc ROLE_MANAGER.
-        // Nếu chưa login, nó sẽ redirect tới trang /admin/login.
-        http.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")//
-                .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
- 
-        // Các trang chỉ dành cho MANAGER
-        http.authorizeRequests().antMatchers("/admin/product").access("hasRole('ROLE_MANAGER')");
- 
-        // Khi người dùng đã login, với vai trò XX.
-        // Nhưng truy cập vào trang yêu cầu vai trò YY,
-        // Ngoại lệ AccessDeniedException sẽ ném ra.
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
- 
-        // Cấu hình cho Login Form.
-        http.authorizeRequests().and().formLogin()//
- 
-                // 
-                .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                .loginPage("/admin/login")//
-                .defaultSuccessUrl("/admin/accountInfo")//
-                .failureUrl("/admin/login?error=true")//
-                .usernameParameter("userName")//
+
+        http.
+                authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/game").hasAuthority("GAMER")
+                .antMatchers("/admin/**").hasAuthority("GAMER").anyRequest()
+                .authenticated().and().csrf().disable().formLogin()
+                .loginPage("/login").failureUrl("/login?error=true")
+                .defaultSuccessUrl("/game")
+                .usernameParameter("email")
                 .passwordParameter("password")
- 
-                // Cấu hình cho trang Logout.
-                // (Sau khi logout, chuyển tới trang home)
-                .and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/");
- 
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").and().exceptionHandling()
+                .accessDeniedPage("/access-denied");
     }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+    }
+	
+	
 }

@@ -1,40 +1,57 @@
 package hpbui.gamerportal.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="Accounts")
+@Table(name = "gamer_portal.accounts")
 public class Account {
 	public static final String ROLE_GAMER = "GAMER";
 	public static final String ROLE_ADMIN = "ADMIN";
-	
-	@Id
-	@Column(name = "Id", nullable = false)
-	private int id;
-	
-	@Column(name = "Username", length = 45, nullable = false)
-	private String username;
-	
-	@Column(name = "Password", length = 128, nullable = false)
-	private String password;
-	
-	@Column(name = "Email", length = 128, nullable = false)
-	private String email;
-	
-	@Column(name = "Active", length = 1, nullable = false)
-	private boolean active;
-	
-	@Column(name = "Role", length = 20, nullable = false)
-	private String role;
 
-	public int getId() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(name = "username", length = 45, nullable = false)
+    @NotEmpty(message = "*Please provide an username")
+	private String username;
+
+	@Column(name = "password",length = 128, nullable = false)
+    @NotEmpty(message = "*Please provide password")
+	private String password;
+
+	@Column(name = "email", length = 128, nullable = false)
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
+	private String email;
+
+	@Column(length = 1, nullable = false)
+	private boolean active;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "gamer_portal.account_role", 
+	joinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")}, 
+	inverseJoinColumns = {@JoinColumn(name="idRole", referencedColumnName="id")})
+	private Set<Role> roles;
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -70,12 +87,12 @@ public class Account {
 		this.active = active;
 	}
 
-	public String getRole() {
-		return role;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
-	
+
 }

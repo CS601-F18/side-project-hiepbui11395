@@ -2,20 +2,22 @@ package hpbui.gamerportal.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Games")
+@Table(name = "gamer_portal.games")
 public class Game {
 	@Id
-	@Column(name = "Id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name = "Name", length = 128, nullable = false)
-	private String Name;
+	@Column(length = 128, nullable = false)
+	private String name;
 	
-	@Column(name = "Active", length = 1, nullable = false)
+	@Column(length = 1, nullable = false)
 	private boolean active;
 
 	public int getId() {
@@ -27,11 +29,11 @@ public class Game {
 	}
 
 	public String getName() {
-		return Name;
+		return this.name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public boolean isActive() {
