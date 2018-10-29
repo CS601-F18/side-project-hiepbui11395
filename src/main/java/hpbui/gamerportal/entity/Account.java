@@ -23,7 +23,7 @@ public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 
 	@Column(name = "username", length = 45, nullable = false)
     @NotEmpty(message = "*Please provide an username")
@@ -46,12 +46,18 @@ public class Account {
 	joinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")}, 
 	inverseJoinColumns = {@JoinColumn(name="idRole", referencedColumnName="id")})
 	private Set<Role> roles;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "gamer_portal.account_account", 
+	joinColumns = {@JoinColumn(name="idAccount1", referencedColumnName="id")}, 
+	inverseJoinColumns = {@JoinColumn(name="idAccount2", referencedColumnName="id")})
+	private Set<Account> accounts;
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

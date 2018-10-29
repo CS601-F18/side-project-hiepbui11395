@@ -1,10 +1,14 @@
 package hpbui.gamerportal.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +27,11 @@ public class AccountGame {
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
+	@OneToMany(mappedBy="accountGame",
+			cascade=CascadeType.ALL,
+			orphanRemoval=true)
+	private Set<GameTime> gameTimes;
+	
 	public int getId() {
 		return id;
 	}
