@@ -17,8 +17,6 @@ public class GameTime {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(nullable=false)
-	private int idAccountGame;
 	
 	@Column(nullable=false)
 	private int idGame;
@@ -28,7 +26,7 @@ public class GameTime {
 	private int endTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idPost")
+	@JoinColumn(name = "idAccountGame")
 	private AccountGame accountGame;
 	
 	public int getId() {
@@ -37,14 +35,6 @@ public class GameTime {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdAccountGame() {
-		return idAccountGame;
-	}
-
-	public void setIdAccountGame(int idAccountGame) {
-		this.idAccountGame = idAccountGame;
 	}
 
 	public int getIdGame() {
@@ -69,6 +59,14 @@ public class GameTime {
 
 	public void setEndTime(int endTime) {
 		this.endTime = endTime;
+	}
+
+	public AccountGame getAccountGame() {
+		return accountGame;
+	}
+
+	public void setAccountGame(AccountGame accountGame) {
+		this.accountGame = accountGame;
 	}
 	
 }

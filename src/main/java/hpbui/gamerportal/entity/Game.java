@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -31,6 +32,11 @@ public class Game {
 	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")}, 
 	inverseJoinColumns = {@JoinColumn(name="idGenre", referencedColumnName="id")})
 	private Set<Genre> genres;
+	
+	@OneToMany(mappedBy="game",
+			cascade=CascadeType.ALL,
+			orphanRemoval=true)
+	private Set<AccountGame> accountGames;
 	
 	public int getId() {
 		return id;
@@ -55,4 +61,21 @@ public class Game {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+	public Set<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
+
+	public Set<AccountGame> getAccountGames() {
+		return accountGames;
+	}
+
+	public void setAccountGames(Set<AccountGame> accountGames) {
+		this.accountGames = accountGames;
+	}
+
 }

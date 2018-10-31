@@ -13,15 +13,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import hpbui.gamerportal.service.impl.AccountServiceImpl;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    private DataSource dataSource;
+	@Autowired
+	AccountServiceImpl accountService;
 
     @Value("${spring.queries.users-query}")
     private String usersQuery;
@@ -30,14 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String rolesQuery;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.
-                jdbcAuthentication()
-                .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
-                .dataSource(dataSource)
-                .passwordEncoder(bCryptPasswordEncoder);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(accountService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
@@ -46,14 +41,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/genre/**").permitAll()
                 .antMatchers("/game/**").permitAll()
+                .antMatchers("/account/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/game")
+                .loginPage("/account/login").failureUrl("/account/login?error=true")
+                .defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()

@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import hpbui.gamerportal.entity.Account;
-import hpbui.gamerportal.service.AccountService;
+import hpbui.gamerportal.service.impl.AccountServiceImpl;
 
 @Controller
 public class LoginController {
 	@Autowired
-    private AccountService accountService;
+    private AccountServiceImpl accountServiceImpl;
 
-    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+    @RequestMapping(value="/account/login", method = RequestMethod.GET)
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
@@ -38,7 +38,7 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid Account account, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        Account accountEntity = accountService.findAccountByEmail(account.getEmail());
+        Account accountEntity = accountServiceImpl.findAccountByEmail(account.getEmail());
         if (accountEntity != null) {
             bindingResult
                     .rejectValue("email", "error.user",
@@ -47,7 +47,7 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
-            accountService.addAccount(account);
+            accountServiceImpl.addAccount(account);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("account", new Account());
             modelAndView.setViewName("registration");
@@ -60,7 +60,7 @@ public class LoginController {
     public ModelAndView home(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account account = accountService.findAccountByEmail(auth.getName());
+        Account account = accountServiceImpl.findAccountByEmail(auth.getName());
         modelAndView.addObject("accountEmail", "Welcome " + account.getEmail());
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
         modelAndView.setViewName("admin/home");

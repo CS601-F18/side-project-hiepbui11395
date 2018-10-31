@@ -1,0 +1,26 @@
+<div class="menu-container"
+   xmlns:th="http://www.thymeleaf.org"
+   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" >
+   <a th:href="@{/}">Home</a>
+   |
+   <a th:href="@{/game}">
+   Games list
+   </a>
+   |
+   <a th:href="@{/account}">
+   Gamers list
+   </a>
+   |
+   <th:block sec:authorize="hasRole('ADMIN')">
+      <a th:href="@{/admin/game/get}">
+      Get games data
+      </a>
+      |
+   </th:block>
+   <th:block sec:authorize="hasRole('ADMIN')">
+      <a th:href="@{/admin/genre/get}">
+      Get genre data
+      </a>
+      |
+   </th:block>
+</div>

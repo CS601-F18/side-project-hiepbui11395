@@ -5,12 +5,14 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -41,7 +43,7 @@ public class Account {
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "gamer_portal.account_role", 
 	joinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")}, 
 	inverseJoinColumns = {@JoinColumn(name="idRole", referencedColumnName="id")})
@@ -49,9 +51,14 @@ public class Account {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "gamer_portal.account_account", 
-	joinColumns = {@JoinColumn(name="idAccount1", referencedColumnName="id")}, 
-	inverseJoinColumns = {@JoinColumn(name="idAccount2", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name="idAccount1")}, 
+	inverseJoinColumns = {@JoinColumn(name="idAccount2")})
 	private Set<Account> accounts;
+	
+	@OneToMany(mappedBy="account",
+			cascade=CascadeType.ALL,
+			orphanRemoval=true)
+	private Set<AccountGame> accountGames;
 
 	public int getId() {
 		return id;
@@ -99,6 +106,22 @@ public class Account {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+	public Set<AccountGame> getAccountGames() {
+		return accountGames;
+	}
+
+	public void setAccountGames(Set<AccountGame> accountGames) {
+		this.accountGames = accountGames;
 	}
 
 }

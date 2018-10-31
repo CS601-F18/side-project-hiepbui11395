@@ -60,6 +60,7 @@ public class GameServiceImpl implements GameService {
 		if(gameRepository.findByName(game.getName())!=null){
 			return;
 		}
+		game.setActive(true);
 		Game entity = gameRepository.save(game);
 		for(String genreName : genres) {
 			Genre genre = genreRepository.findByGenre(genreName);
