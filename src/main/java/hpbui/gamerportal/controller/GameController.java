@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import hpbui.gamerportal.entity.Game;
@@ -15,9 +16,18 @@ import hpbui.gamerportal.utils.Utils;
 @Controller
 public class GameController {
 	private boolean isTest = true;
-	
+
 	@Autowired
 	private GameService gameService;
+
+	@GetMapping(value="/game")
+	public String game(Model model) {
+		ArrayList<Game> games = new ArrayList<Game>();
+		gameService.findAll().forEach(games::add);
+		model.addAttribute("games",games);
+		return "game/index";
+
+	}
 
 	@GetMapping(value="/admin/game/get")
 	public String getGame() {

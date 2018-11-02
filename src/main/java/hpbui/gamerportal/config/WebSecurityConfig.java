@@ -1,7 +1,5 @@
 package hpbui.gamerportal.config;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -47,8 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/account/login").failureUrl("/account/login?error=true")
-                .defaultSuccessUrl("/")
+                .loginPage("/login").permitAll()
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/", true)
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()
