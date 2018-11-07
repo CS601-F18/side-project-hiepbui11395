@@ -23,7 +23,7 @@ public class GenreController {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 
-	@GetMapping(value="/admin/genre/get")
+	@GetMapping(path="/admin/genre/get")
 	public String getGenres() {
 		int offset = 0;
 		int total = Integer.MAX_VALUE;

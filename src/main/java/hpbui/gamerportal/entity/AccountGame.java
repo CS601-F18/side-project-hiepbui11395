@@ -4,22 +4,16 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "gamer_portal.account_game")
 public class AccountGame {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@EmbeddedId
+	private AccountGameId id;
 	
 	@Column(length = 1, nullable = false)
 	private boolean active;
@@ -29,22 +23,14 @@ public class AccountGame {
 			orphanRemoval=true)
 	private Set<GameTime> gameTimes;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idAccount")
-	private Account account;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "idAccount")
+//	private Account account;
+//	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "idGame")
+//	private Game game;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idGame")
-	private Game game;
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -60,21 +46,30 @@ public class AccountGame {
 	public void setGameTimes(Set<GameTime> gameTimes) {
 		this.gameTimes = gameTimes;
 	}
-
-	public Account getAccount() {
-		return account;
+//
+//	public Account getAccount() {
+//		return account;
+//	}
+//
+//	public void setAccount(Account account) {
+//		this.account = account;
+//	}
+//
+//	public Game getGame() {
+//		return game;
+//	}
+//
+//	public void setGame(Game game) {
+//		this.game = game;
+//	}
+//
+//	
+	public AccountGameId getId() {
+		return id;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public Game getGame() {
-		return game;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
+	public void setId(AccountGameId id) {
+		this.id = id;
 	}
 	
 }

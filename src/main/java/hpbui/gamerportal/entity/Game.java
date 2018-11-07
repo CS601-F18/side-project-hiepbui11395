@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,10 +19,10 @@ public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@Column(length = 128, nullable = false)
 	private String name;
-	
+
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
@@ -32,12 +31,18 @@ public class Game {
 	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")}, 
 	inverseJoinColumns = {@JoinColumn(name="idGenre", referencedColumnName="id")})
 	private Set<Genre> genres;
-	
-	@OneToMany(mappedBy="game",
-			cascade=CascadeType.ALL,
-			orphanRemoval=true)
-	private Set<AccountGame> accountGames;
-	
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "gamer_portal.account_game",
+	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id", insertable=false, updatable=false)},
+	inverseJoinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id", insertable=false, updatable=false)})
+	private Set<Account> accounts;
+
+//	@OneToMany(mappedBy="game",
+//			cascade=CascadeType.ALL,
+//			orphanRemoval=true)
+//	private Set<AccountGame> accountGames;
+
 	public int getId() {
 		return id;
 	}
@@ -70,12 +75,22 @@ public class Game {
 		this.genres = genres;
 	}
 
-	public Set<AccountGame> getAccountGames() {
-		return accountGames;
+	public Set<Account> getAccounts() {
+		return accounts;
 	}
 
-	public void setAccountGames(Set<AccountGame> accountGames) {
-		this.accountGames = accountGames;
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
+
+	
+	
+//	public Set<AccountGame> getAccountGames() {
+//		return accountGames;
+//	}
+//
+//	public void setAccountGames(Set<AccountGame> accountGames) {
+//		this.accountGames = accountGames;
+//	}
 
 }

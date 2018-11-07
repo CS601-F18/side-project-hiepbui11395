@@ -6,8 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.google.gson.Gson;
 
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.service.GameService;
@@ -15,27 +16,20 @@ import hpbui.gamerportal.utils.Utils;
 
 @Controller
 public class GameController {
-	private boolean isTest = true;
+	Gson gson = new Gson();
 
 	@Autowired
 	private GameService gameService;
 
-	@GetMapping(value="/game")
-	public String game(Model model) {
-		ArrayList<Game> games = new ArrayList<Game>();
-		gameService.findAll().forEach(games::add);
-		model.addAttribute("games",games);
+	@GetMapping(path = "/games")
+	public String index() {
 		return "game/index";
-
 	}
 
-	@GetMapping(value="/admin/game/get")
+	@GetMapping(path="/admin/game/get")
 	public String getGame() {
-		int offset = 0;
+		int offset = 200;
 		int total = Integer.MAX_VALUE;
-		if(isTest) {
-			total = 100;
-		}
 		while(offset<total) {
 			String urlString = "https://www.giantbomb.com/api/games/?api_key=24a0f044a74d7d88224268e7cbc11c39007727fc&"
 					+ "format=json&"
@@ -43,9 +37,7 @@ public class GameController {
 					+ "offset=" + offset;
 			String response = Utils.callGetApi(urlString);
 			JSONObject jsonObject = new JSONObject(response);
-			if(!isTest) {
-				total = jsonObject.getInt("number_of_total_results");
-			}
+			total = jsonObject.getInt("number_of_total_results");
 			JSONArray jsonGameArray = jsonObject.getJSONArray("results");
 			for(int i = 0;i<jsonGameArray.length();i++) {
 				JSONObject jsonGameObject = jsonGameArray.getJSONObject(i);
@@ -62,10 +54,14 @@ public class GameController {
 				}
 				gameService.addGame(game, genres);
 			}
+			System.out.println("get from: " + offset + " - to: " + offset+100);
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			offset+=100;
-			System.out.println(response.toString());
-
-
 		}
 		return "admin/index";
 	}

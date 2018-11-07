@@ -1,26 +1,57 @@
-<div class="menu-container"
-   xmlns:th="http://www.thymeleaf.org"
-   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" >
-   <a th:href="@{/}">Home</a>
-   |
-   <a th:href="@{/game}">
-   Games list
-   </a>
-   |
-   <a th:href="@{/account}">
-   Gamers list
-   </a>
-   |
-   <th:block sec:authorize="hasRole('ADMIN')">
-      <a th:href="@{/admin/game/get}">
-      Get games data
-      </a>
-      |
-   </th:block>
-   <th:block sec:authorize="hasRole('ADMIN')">
-      <a th:href="@{/admin/genre/get}">
-      Get genre data
-      </a>
-      |
-   </th:block>
+<div class="header-container" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">GP</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" th:href="@{/}">
+						Home
+						<span class="sr-only">(current)</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/games}">Games List </a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/genres}">Genre List</a>
+				</li>
+
+				<th:block sec:authorize="hasRole('ADMIN')">
+					<a th:href="@{/admin/game/get}"> Get games data </a>
+				</th:block>
+				<th:block sec:authorize="hasRole('ADMIN')">
+					<a th:href="@{/admin/genre/get}"> Get genre data </a>
+				</th:block>
+			</ul>
+			<ul class="navbar-nav">
+				<th:block sec:authorize="!isAuthenticated()">
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/login}">Login</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/registration}">Register</a>
+					</li>
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+							th:utext="${#request.userPrincipal.name}"> </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" th:href="@{/account/detail}">Account</a>
+							<a class="dropdown-item" th:href="@{/logout}">Logout</a>
+						</div>
+					</li>
+				</th:block>
+			</ul>
+		</div>
+	</nav>
 </div>

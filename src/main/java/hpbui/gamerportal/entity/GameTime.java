@@ -1,12 +1,12 @@
 package hpbui.gamerportal.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,33 +16,24 @@ public class GameTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	
-	@Column(nullable=false)
-	private int idGame;
-	
+
 	private int startTime;
-	
+
 	private int endTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idAccountGame")
+	@JoinColumns({
+		@JoinColumn(name = "idAccount", referencedColumnName="idAccount", insertable=false, updatable=false),
+		@JoinColumn(name = "idGame", referencedColumnName="idGame", insertable=false, updatable=false)
+	})
 	private AccountGame accountGame;
-	
+
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getIdGame() {
-		return idGame;
-	}
-
-	public void setIdGame(int idGame) {
-		this.idGame = idGame;
 	}
 
 	public int getStartTime() {
@@ -68,5 +59,5 @@ public class GameTime {
 	public void setAccountGame(AccountGame accountGame) {
 		this.accountGame = accountGame;
 	}
-	
+
 }

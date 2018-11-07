@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import hpbui.gamerportal.entity.Game;
@@ -70,4 +72,14 @@ public class GameServiceImpl implements GameService {
 			gameGenreRepository.save(gameGenre);
 		}
 	}
+
+	
+	@Override
+	public Page<Game> getAllPagination(PageRequest pageRequest) {
+		return gameRepository.findAll(pageRequest);
+	}
+
+	
+
+	
 }

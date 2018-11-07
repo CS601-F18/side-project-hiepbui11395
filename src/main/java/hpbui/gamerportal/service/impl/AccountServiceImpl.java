@@ -65,13 +65,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 					+ username + " was not found in the database");
 		}
 
-		// EMPLOYEE,MANAGER,..
 		Set<Role> roles = account.getRoles();
 
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
 
 		for(Role role : roles) {
-			GrantedAuthority authority = new SimpleGrantedAuthority(role.toString());
+			GrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
 			grantList.add(authority);
 		}
 
