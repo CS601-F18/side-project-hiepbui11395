@@ -23,13 +23,6 @@ public class AccountGame {
 			orphanRemoval=true)
 	private Set<GameTime> gameTimes;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "idAccount")
-//	private Account account;
-//	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "idGame")
-//	private Game game;
 	
 	public boolean isActive() {
 		return active;
@@ -46,24 +39,7 @@ public class AccountGame {
 	public void setGameTimes(Set<GameTime> gameTimes) {
 		this.gameTimes = gameTimes;
 	}
-//
-//	public Account getAccount() {
-//		return account;
-//	}
-//
-//	public void setAccount(Account account) {
-//		this.account = account;
-//	}
-//
-//	public Game getGame() {
-//		return game;
-//	}
-//
-//	public void setGame(Game game) {
-//		this.game = game;
-//	}
-//
-//	
+
 	public AccountGameId getId() {
 		return id;
 	}

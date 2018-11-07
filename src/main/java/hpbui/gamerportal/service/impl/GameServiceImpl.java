@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.entity.GameGenre;
+import hpbui.gamerportal.entity.GameGenreId;
 import hpbui.gamerportal.entity.Genre;
 import hpbui.gamerportal.repository.GameGenreRepository;
 import hpbui.gamerportal.repository.GameRepository;
@@ -33,7 +34,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Game findOne(int id) {
+	public Game findById(int id) {
 		Optional<Game> entity = gameRepository.findById(id);
 		if(entity.isPresent()) {
 			return entity.get();
@@ -67,8 +68,9 @@ public class GameServiceImpl implements GameService {
 		for(String genreName : genres) {
 			Genre genre = genreRepository.findByGenre(genreName);
 			GameGenre gameGenre = new GameGenre();
-			gameGenre.setIdGame(entity.getId());
-			gameGenre.setIdGenre(genre.getId());
+			GameGenreId id = new GameGenreId();
+			id.setIdGame(entity.getId());
+			id.setIdGenre(genre.getId());
 			gameGenreRepository.save(gameGenre);
 		}
 	}
@@ -77,6 +79,11 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public Page<Game> getAllPagination(PageRequest pageRequest) {
 		return gameRepository.findAll(pageRequest);
+	}
+
+	@Override
+	public Game findByName(String name) {
+		return gameRepository.findByName(name);
 	}
 
 	

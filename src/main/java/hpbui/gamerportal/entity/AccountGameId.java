@@ -8,11 +8,11 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class AccountGameId implements Serializable {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -3151877294404643986L;
 	@Column(name = "idAccount")
 	private long idAccount;
 	@Column(name = "idGame")

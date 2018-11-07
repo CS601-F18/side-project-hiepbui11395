@@ -34,14 +34,9 @@ public class Game {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "gamer_portal.account_game",
-	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id", insertable=false, updatable=false)},
-	inverseJoinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id", insertable=false, updatable=false)})
+	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")},
+	inverseJoinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")})
 	private Set<Account> accounts;
-
-//	@OneToMany(mappedBy="game",
-//			cascade=CascadeType.ALL,
-//			orphanRemoval=true)
-//	private Set<AccountGame> accountGames;
 
 	public int getId() {
 		return id;

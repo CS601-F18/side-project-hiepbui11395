@@ -10,7 +10,9 @@ import hpbui.gamerportal.entity.Game;
 public interface GameService {
 	Iterable<Game> findAll();
 
-	Game findOne(int id);
+	Game findById(int id);
+	
+	Game findByName(String name);
 
 	void save(Game game);
 
