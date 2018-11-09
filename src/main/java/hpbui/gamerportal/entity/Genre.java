@@ -2,13 +2,7 @@ package hpbui.gamerportal.entity;
 
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="gamer_portal.genres")
@@ -23,7 +17,7 @@ public class Genre {
 	@Column(length=1, nullable=false)
 	private boolean active;
 	
-	@ManyToMany(mappedBy="genres")
+	@ManyToMany(mappedBy="genres", fetch = FetchType.LAZY)
 	private Set<Game> games;
 
 	public int getId() {

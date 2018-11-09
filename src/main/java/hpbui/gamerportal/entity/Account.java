@@ -46,10 +46,10 @@ public class Account {
 	inverseJoinColumns = {@JoinColumn(name="idRole", referencedColumnName="id")})
 	private Set<Role> roles;
 	
-	@ManyToMany(mappedBy = "accounts")
+	@ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
 	private Set<Game> games;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name = "gamer_portal.account_account", 
 	joinColumns = {@JoinColumn(name="idAccount1")}, 
 	inverseJoinColumns = {@JoinColumn(name="idAccount2")})

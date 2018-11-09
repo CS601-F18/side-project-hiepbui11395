@@ -1,7 +1,10 @@
 package hpbui.gamerportal.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import hpbui.gamerportal.viewmodel.GameViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,8 +36,14 @@ public class GameRestController {
 	Gson gson = new Gson();
 
 	@GetMapping(value="/api/games")
-	public Iterable<Game> getAll() {
-		return gameService.findAll();
+	public List<GameViewModel> getAll() {
+		//TODO: return only game information
+		Iterable<Game> games = gameService.findAll();
+		List<GameViewModel> result = new ArrayList<GameViewModel>();
+		for(Game game : games){
+			result.add(new GameViewModel(game.getId(),game.getName(),game.isActive()));
+		}
+		return result;
 	}
 	
 	@GetMapping(value="/api/games/getDataTable")

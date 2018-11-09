@@ -2,16 +2,7 @@ package hpbui.gamerportal.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "gamer_portal.games")
@@ -26,13 +17,13 @@ public class Game {
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "gamer_portal.game_genre", 
 	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")}, 
 	inverseJoinColumns = {@JoinColumn(name="idGenre", referencedColumnName="id")})
 	private Set<Genre> genres;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "gamer_portal.account_game",
 	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")},
 	inverseJoinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")})
