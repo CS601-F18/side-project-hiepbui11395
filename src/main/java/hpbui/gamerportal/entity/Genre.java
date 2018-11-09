@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name="gamer_portal.genres")
 public class Genre {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(length=45, nullable=false)

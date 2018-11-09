@@ -1,22 +1,41 @@
 package hpbui.gamerportal.entity;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="gamer_portal.game_genre")
 public class GameGenre {
-	@EmbeddedId
-	private GameGenreId id;
-	
-	public GameGenreId getId() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(nullable = false)
+	private int idGame;
+
+	@Column(nullable = false)
+	private int idGenre;
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(GameGenreId id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
+	public int getIdGame() {
+		return idGame;
+	}
+
+	public void setIdGame(int idGame) {
+		this.idGame = idGame;
+	}
+
+	public int getIdGenre() {
+		return idGenre;
+	}
+
+	public void setIdGenre(int idGenre) {
+		this.idGenre = idGenre;
+	}
 }

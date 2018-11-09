@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "gamer_portal.account_account")
 public class AccountAccount {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(nullable = false)

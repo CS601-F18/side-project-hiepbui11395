@@ -55,7 +55,7 @@
 	</div>
 </body>
 <script>
-	var games;
+    let games;
 	$.ajax({
 		type : "GET",
 		url : "/api/games",
@@ -69,13 +69,13 @@
 	});
 
 	// Get the modal
-	var modal = document.getElementById('addGameModel');
+	let modal = document.getElementById('addGameModel');
 
 	// Get the button that opens the modal
-	var btn = document.getElementById("myBtn");
+    let btn = document.getElementById("myBtn");
 
 	// Get the <span> element that closes the modal
-	var span = document.getElementsByClassName("close")[0];
+    let span = document.getElementsByClassName("close")[0];
 
 	// When the user clicks on the button, open the modal 
 	btn.onclick = function() {
@@ -95,14 +95,19 @@
 	}
 	$(document).ready(function() {
 		$("#btnAddGame").click(function(e) {
-			e.preventDefault();
+            e.preventDefault();
+            let startTime = $('#startTime').val().split(':');
+            let startTimeMinutes = (+startTime[0]) * 60 + (+startTime[1]);
+            let endTime = $('#endTime').val().split(':');
+            let endTimeMinutes = (+endTime[0])*60 + (+endTime[1]);
+
 			$.ajax({
 				type : "POST",
-				url : "/account/game/",
+				url : "/account/games/add",
 				data : {
-					game : $("#gameName").val(),
-					startTime : $("#startTime").val(),
-					endTime : $("#endTime").val()
+					name : $("#gameName").val(),
+					startTime : startTimeMinutes,
+					endTime : endTimeMinutes
 				},
 				success : function(result) {
 					alert('ok');
@@ -112,6 +117,7 @@
 				}
 			});
 		});
+
 	});
 </script>
 </html>

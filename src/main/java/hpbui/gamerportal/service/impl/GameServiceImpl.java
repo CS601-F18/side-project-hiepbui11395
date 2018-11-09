@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.entity.GameGenre;
-import hpbui.gamerportal.entity.GameGenreId;
 import hpbui.gamerportal.entity.Genre;
 import hpbui.gamerportal.repository.GameGenreRepository;
 import hpbui.gamerportal.repository.GameRepository;
@@ -29,7 +28,6 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public Iterable<Game> findAll() {
-		// TODO Auto-generated method stub
 		return gameRepository.findAll();
 	}
 
@@ -68,9 +66,6 @@ public class GameServiceImpl implements GameService {
 		for(String genreName : genres) {
 			Genre genre = genreRepository.findByGenre(genreName);
 			GameGenre gameGenre = new GameGenre();
-			GameGenreId id = new GameGenreId();
-			id.setIdGame(entity.getId());
-			id.setIdGenre(genre.getId());
 			gameGenreRepository.save(gameGenre);
 		}
 	}

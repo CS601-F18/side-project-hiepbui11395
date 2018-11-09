@@ -4,10 +4,10 @@ import hpbui.gamerportal.entity.Account;
 
 public interface AccountService {
     
-    public Account findAccountByEmail(String email);
+    Account findAccountByEmail(String email);
     
-    public Account findAccountById(int id);
+    Account findAccountById(int id);
     
-    public void addAccount(Account account);
+    void addAccount(Account account);
 
 }

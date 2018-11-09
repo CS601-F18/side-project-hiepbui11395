@@ -1,29 +1,72 @@
 package hpbui.gamerportal.entity;
 
+import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "gamer_portal.account_game")
 public class AccountGame {
-	@EmbeddedId
-	private AccountGameId id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(nullable = false)
+	private int idAccount;
+
+	@Column(nullable = false)
+	private int idGame;
+
+	@Column
+	private int startTime;
+
+	@Column
+	private int endTime;
 	
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
-	@OneToMany(mappedBy="accountGame",
-			cascade=CascadeType.ALL,
-			orphanRemoval=true)
-	private Set<GameTime> gameTimes;
-	
-	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getIdAccount() {
+		return idAccount;
+	}
+
+	public void setIdAccount(int idAccount) {
+		this.idAccount = idAccount;
+	}
+
+	public int getIdGame() {
+		return idGame;
+	}
+
+	public void setIdGame(int idGame) {
+		this.idGame = idGame;
+	}
+
+	public int getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(int startTime) {
+		this.startTime = startTime;
+	}
+
+	public int getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(int endTime) {
+		this.endTime = endTime;
+	}
+
 	public boolean isActive() {
 		return active;
 	}
@@ -31,21 +74,4 @@ public class AccountGame {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-	public Set<GameTime> getGameTimes() {
-		return gameTimes;
-	}
-
-	public void setGameTimes(Set<GameTime> gameTimes) {
-		this.gameTimes = gameTimes;
-	}
-
-	public AccountGameId getId() {
-		return id;
-	}
-
-	public void setId(AccountGameId id) {
-		this.id = id;
-	}
-	
 }
