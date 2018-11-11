@@ -6,8 +6,11 @@ import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.repository.AccountGameRepository;
 import hpbui.gamerportal.service.AccountGameService;
 import hpbui.gamerportal.viewmodel.GameAddViewModel;
+import hpbui.gamerportal.viewmodel.GameWithTimeViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AccountGameServiceImpl implements AccountGameService {
@@ -23,5 +26,13 @@ public class AccountGameServiceImpl implements AccountGameService {
         entity.setIdAccount(account.getId());
         entity.setIdGame(game.getId());
         accountGameRepository.save(entity);
+    }
+
+    @Override
+    public GameWithTimeViewModel findTimeByAccountAndGame(Game game, Account account) {
+        List<AccountGame> result = accountGameRepository.
+                findAccountGameByIdAccountAndIdGame(account.getId(),game.getId());
+        GameWithTimeViewModel gameWithTime = new GameWithTimeViewModel(game,result);
+        return gameWithTime;
     }
 }

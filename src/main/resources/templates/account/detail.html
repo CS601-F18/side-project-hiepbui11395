@@ -11,14 +11,32 @@
 	<div class="page-title">Account Info</div>
 	<div class="account-container">
 		<ul>
-			<li>Username: <span th:utext="${account.username}"></span></li>
+			<li>Username: <!--/*@thymesVar id="account.username" type="account"*/-->
+			<span th:utext="${account.username}"></span></li>
 			<li>Email: <span th:utext="${account.email}"></span></li>
 			<li>Games:
-				<ul>
-					<li th:each="game : ${account.games}"
-						th:utext="${game.name}"></li>
-				</ul>
-				<button id="myBtn">Open Modal</button>
+				<table border="1">
+					<thead>
+						<tr>
+							<th>Game</th>
+							<th>Time</th>
+						</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="gameWithTime : ${games}">
+						<tr>
+							<td th:text="${gameWithTime.game.name}"></td>
+							<td >
+								<ul>
+									<li th:each="gameTime: ${gameWithTime.gameTimes}"
+										th:utext="${gameTime}"></li>
+								</ul>
+							</td>
+						</tr>
+					</th:block>
+					</tbody>
+				</table>
+				<button id="myBtn">Add games</button>
 			</li>
 		</ul>
 	</div>

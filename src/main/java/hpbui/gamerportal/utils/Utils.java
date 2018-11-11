@@ -40,4 +40,17 @@ public class Utils {
 		}
 		return response.toString();
 	}
+
+	public static String convertFromIntToTime(int minutes){
+		String startTime = "00:00";
+		String time = "";
+		int h = minutes / 60 + Integer.parseInt(startTime.substring(0,1));
+		int m = minutes % 60 + Integer.parseInt(startTime.substring(3,4));
+		if(m<10){
+			time = h+":0"+m;
+		} else{
+			time = h+":"+m;
+		}
+		return time;
+	}
 }

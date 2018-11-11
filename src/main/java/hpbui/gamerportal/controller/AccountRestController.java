@@ -3,6 +3,7 @@ package hpbui.gamerportal.controller;
 import hpbui.gamerportal.entity.AccountGame;
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.service.AccountGameService;
+import hpbui.gamerportal.service.RelationshipService;
 import hpbui.gamerportal.utils.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,8 @@ public class AccountRestController {
 	GameService gameService;
 	@Autowired
 	AccountGameService accountGameService;
+	@Autowired
+	RelationshipService relationshipService;
 
 	@PostMapping(path = "/account/games/add")
 	public JsonResponse addAccountGame(GameAddViewModel model) {
@@ -35,6 +38,17 @@ public class AccountRestController {
 			//TODO: handle if game not found
 		}
 		accountGameService.addAccountGame(model,game,account);
+		JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
+		return response;
+	}
+
+	@PostMapping(path = "/account/addFriend")
+	public JsonResponse addFriend(Account model){
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.
+			getContext().getAuthentication().getPrincipal();
+		Account accountFrom = accountService.findAccountByEmail(userDetails.getUsername());
+		Account accountTo = accountService.findAccountById(model.getId());
+		relationshipService.addFriend(accountFrom, accountTo);
 		JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
 		return response;
 	}

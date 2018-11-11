@@ -23,6 +23,14 @@ public class AccountGame {
 
 	@Column
 	private int endTime;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id")
+	private Game game;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id")
+	private Account account;
 	
 	@Column(length = 1, nullable = false)
 	private boolean active;
@@ -65,6 +73,22 @@ public class AccountGame {
 
 	public void setEndTime(int endTime) {
 		this.endTime = endTime;
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public boolean isActive() {

@@ -1,5 +1,8 @@
 package hpbui.gamerportal.controller;
 
+import hpbui.gamerportal.entity.Game;
+import hpbui.gamerportal.service.AccountGameService;
+import hpbui.gamerportal.viewmodel.GameWithTimeViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,17 +14,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import hpbui.gamerportal.entity.Account;
 import hpbui.gamerportal.service.AccountService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class AccountController {
 	@Autowired
 	private AccountService accountService;
-	
+	@Autowired
+	private AccountGameService accountGameService;
+
 	@GetMapping(path = "/account/detail")
 	public String accountDetail(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
         		getContext().getAuthentication().getPrincipal();
-		Account entity = accountService.findAccountByEmail(userDetails.getUsername());
-		model.addAttribute("account", entity);
+		Account account = accountService.findAccountByEmail(userDetails.getUsername());
+		model.addAttribute("account", account);
+		List<GameWithTimeViewModel> gameWithTimes = new ArrayList<>();
+		for(Game game:account.getGames()){
+			gameWithTimes.add(accountGameService.findTimeByAccountAndGame(game, account));
+		}
+		model.addAttribute("games",gameWithTimes);
 		return "account/detail";
 	}
 }

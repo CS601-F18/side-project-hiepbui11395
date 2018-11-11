@@ -37,7 +37,6 @@ public class GameRestController {
 
 	@GetMapping(value="/api/games")
 	public List<GameViewModel> getAll() {
-		//TODO: return only game information
 		Iterable<Game> games = gameService.findAll();
 		List<GameViewModel> result = new ArrayList<GameViewModel>();
 		for(Game game : games){
