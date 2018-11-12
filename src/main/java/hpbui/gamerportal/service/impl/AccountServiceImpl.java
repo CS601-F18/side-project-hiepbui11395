@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -46,6 +48,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 		List<Role> userRole = roleRepository.findAll();
 		account.setRoles(new HashSet<Role>(userRole));
 		accountRepository.save(account);
+	}
+
+	@Override
+	public Page<Account> getAllPagination(PageRequest pageRequest) {
+		return accountRepository.findAll(pageRequest);
 	}
 
 	@Override

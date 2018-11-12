@@ -1,11 +1,6 @@
 package hpbui.gamerportal.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "gamer_portal.account_role")
@@ -13,14 +8,26 @@ public class AccountRole {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(nullable=false)
 	private int idAccount;
-	
+
 	@Column(nullable=false)
 	private int idRole;
 
-	public int getId() {
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idAccount", insertable = false, updatable = false)
+	private Account account;
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public int getId() {
 		return id;
 	}
 

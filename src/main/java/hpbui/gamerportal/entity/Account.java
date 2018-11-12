@@ -42,8 +42,8 @@ public class Account {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "gamer_portal.account_role", 
-	joinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")}, 
-	inverseJoinColumns = {@JoinColumn(name="idRole", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name="idAccount")},
+	inverseJoinColumns = {@JoinColumn(name="idRole")})
 	private Set<Role> roles;
 	
 	@ManyToMany(mappedBy = "accounts", fetch = FetchType.LAZY)
@@ -54,11 +54,6 @@ public class Account {
 	joinColumns = {@JoinColumn(name="idAccount1")}, 
 	inverseJoinColumns = {@JoinColumn(name="idAccount2")})
 	private Set<Account> accounts;
-	
-//	@OneToMany(mappedBy="account",
-//			cascade=CascadeType.ALL,
-//			orphanRemoval=true)
-//	private Set<AccountGame> accountGames;
 
 	public int getId() {
 		return id;

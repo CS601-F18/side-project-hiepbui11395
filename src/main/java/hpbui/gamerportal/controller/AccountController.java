@@ -28,13 +28,18 @@ public class AccountController {
 	public String accountDetail(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
         		getContext().getAuthentication().getPrincipal();
-		Account account = accountService.findAccountByEmail(userDetails.getUsername());
-		model.addAttribute("account", account);
+		Account currentAccount = accountService.findAccountByEmail(userDetails.getUsername());
+		model.addAttribute("account", currentAccount);
 		List<GameWithTimeViewModel> gameWithTimes = new ArrayList<>();
-		for(Game game:account.getGames()){
-			gameWithTimes.add(accountGameService.findTimeByAccountAndGame(game, account));
+		for(Game game:currentAccount.getGames()){
+			gameWithTimes.add(accountGameService.findTimeByAccountAndGame(game, currentAccount));
 		}
 		model.addAttribute("games",gameWithTimes);
 		return "account/detail";
+	}
+
+	@GetMapping(path = "/accounts")
+	public String index(){
+		return "account/index";
 	}
 }

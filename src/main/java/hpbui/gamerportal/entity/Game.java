@@ -19,14 +19,14 @@ public class Game {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "gamer_portal.game_genre", 
-	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")}, 
-	inverseJoinColumns = {@JoinColumn(name="idGenre", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name="idGame")},
+	inverseJoinColumns = {@JoinColumn(name="idGenre")})
 	private Set<Genre> genres;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "gamer_portal.account_game",
-	joinColumns = {@JoinColumn(name="idGame", referencedColumnName="id")},
-	inverseJoinColumns = {@JoinColumn(name="idAccount", referencedColumnName="id")})
+	joinColumns = {@JoinColumn(name="idGame")},
+	inverseJoinColumns = {@JoinColumn(name="idAccount")})
 	private Set<Account> accounts;
 
 	public int getId() {

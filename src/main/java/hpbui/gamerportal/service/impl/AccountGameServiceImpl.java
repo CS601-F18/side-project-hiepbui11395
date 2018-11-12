@@ -23,8 +23,10 @@ public class AccountGameServiceImpl implements AccountGameService {
         entity.setActive(true);
         entity.setStartTime(model.getStartTime());
         entity.setEndTime(model.getEndTime());
-        entity.setIdAccount(account.getId());
-        entity.setIdGame(game.getId());
+//        entity.setIdAccount(account.getId());
+//        entity.setIdGame(game.getId());
+        entity.setAccount(account);
+        entity.setGame(game);
         accountGameRepository.save(entity);
     }
 

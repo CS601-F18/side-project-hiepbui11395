@@ -21,4 +21,9 @@ public class RelationshipServiceImpl implements RelationshipService {
                 Enums.Relationship.PENDING.ordinal(),
                 true);
     }
+
+    @Override
+    public Relationship findRelationship(int idAccountFrom, int idAccountTo) {
+        return relationshipRepository.findByIdAccountFromAndIdAccountTo(idAccountFrom,idAccountTo);
+    }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Game List</title>
+    <th:block th:include="/_static"></th:block>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+</head>
+<body>
+<th:block th:include="/_menu"></th:block>
+<div id="wrapper">
+    <div class="container">
+        <div id="demo_jui">
+            <table id="accounts" class="display">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Games</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Index Page content -->
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+<script>
+    $(document).ready(function() {
+        $("#accounts").dataTable({
+            "bServerSide" : true,
+            "sAjaxSource" : "/api/accounts/getDataTable",
+            "bProcessing" : true,
+            "sPaginationType" : "full_numbers",
+            "bJQueryUI" : true,
+            "aoColumns": [{
+                "mData": 0
+            }, {
+                "mData": 1
+            }]
+        });
+    });
+</script>
+</html>

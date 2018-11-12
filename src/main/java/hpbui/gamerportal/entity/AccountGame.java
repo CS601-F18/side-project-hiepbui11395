@@ -25,11 +25,11 @@ public class AccountGame {
 	private int endTime;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "idGame", insertable = false, updatable = false)
 	private Game game;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "idAccount", insertable = false, updatable = false)
 	private Account account;
 	
 	@Column(length = 1, nullable = false)
