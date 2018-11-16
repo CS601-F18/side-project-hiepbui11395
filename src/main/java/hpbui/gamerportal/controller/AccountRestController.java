@@ -42,7 +42,7 @@ public class AccountRestController {
 	public JsonResponse addAccountGame(GameAddViewModel model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
         		getContext().getAuthentication().getPrincipal();
-		Account account = accountService.findAccountByEmail(userDetails.getUsername());
+        Account account = accountService.findAccountByUsername(userDetails.getUsername());
 		Game game = gameService.findByName(model.getName());
 		if(game == null){
 			//TODO: handle if game not found
@@ -56,7 +56,7 @@ public class AccountRestController {
 	public JsonResponse changeRelationship(FollowViewModel model){
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.
 			getContext().getAuthentication().getPrincipal();
-		Account accountFrom = accountService.findAccountByEmail(userDetails.getUsername());
+        Account accountFrom = accountService.findAccountByUsername(userDetails.getUsername());
 		Account accountTo = accountService.findAccountById(model.getId());
 		relationshipService.changeRelationship(accountFrom, accountTo, model.getRelationshipType());
 		JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
@@ -67,7 +67,7 @@ public class AccountRestController {
     public String getAccountDataTable(JQueryDataTable dataTable) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.
 				getContext().getAuthentication().getPrincipal();
-		Account currentAccount = accountService.findAccountByEmail(userDetails.getUsername());
+        Account currentAccount = accountService.findAccountByUsername(userDetails.getUsername());
 		String sEcho = dataTable.getsEcho();
         Page<AccountRole> accountRoleList = accountRoleService.findAccountByRoleName("GAMER",PageRequest.of(
                 (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
@@ -104,11 +104,9 @@ public class AccountRestController {
 		return dataTableResponse.toString();
 	}
 
-    @GetMapping(value = "/api/accounts/getFriendDataTable")
-    public String getFriendDataTable(JQueryDataTable dataTable) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.
-                getContext().getAuthentication().getPrincipal();
-        Account currentAccount = accountService.findAccountByEmail(userDetails.getUsername());
+    @GetMapping(value = "/api/accounts/getFriendDataTable/{id}")
+    public String getFriendDataTable(JQueryDataTable dataTable, @PathVariable int id) {
+        Account currentAccount = accountService.findAccountById(id);
         String sEcho = dataTable.getsEcho();
 
         List<Account> listFriend = relationshipService.findFriend(currentAccount.getId(), PageRequest.of(

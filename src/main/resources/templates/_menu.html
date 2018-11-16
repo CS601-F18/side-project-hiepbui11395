@@ -43,8 +43,8 @@
 				<th:block sec:authorize="isAuthenticated()">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-							th:utext="${#request.userPrincipal.name}"> </a>
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                           th:utext="${#authentication.principal.username}"> </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 							<a class="dropdown-item" th:href="@{/account/detail}">Account</a>
 							<a class="dropdown-item" th:href="@{/logout}">Logout</a>

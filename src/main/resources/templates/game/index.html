@@ -18,9 +18,10 @@
 				<table id="games" class="display">
 					<thead>
 						<tr>
-							<th>Game</th>
-							<th>Genres</th>
-							<th># Gamer</th>
+                            <th>Id</th>
+                            <th>Game</th>
+                            <th>Genres</th>
+                            <th># Gamer</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -41,7 +42,21 @@
 			"sAjaxSource" : "/api/games/getDataTable",
 			"bProcessing" : true,
 			"sPaginationType" : "full_numbers",
-			"bJQueryUI" : true
+            "bJQueryUI": true,
+            "aoColumns": [{
+                "mData": 0,
+                "visible": false,
+            }, {
+                "mData": 1,
+                "render": function (mData, type, row, meta) {
+                    console.log(row[0]);
+                    return '<a href="/games/' + row[0] + '">' + mData + '</a>';
+                }
+            }, {
+                "mData": 2,
+            }, {
+                "mData": 3
+            }]
 		});
 	});
 </script>

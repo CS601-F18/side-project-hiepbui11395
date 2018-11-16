@@ -30,16 +30,17 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 [x] View account detail  
 [x] Add game with time  
 [x] View list of game and number of user  
-[x] View gamer who play a specific game
-[] Sort list of user by number of following
+[x] View gamer who play a specific game  
+[] Sort list of user by number of following  
 [] Make table list of games searchable  
-[] Can redirect to gamer detail page from list of user  
+[x] Can redirect to Gamer detail page/Game detail page from list of users/games  
 
 ### Part 6 - Connecting people
 Two USER(GAMER) can connect with each other after they login and go to the other profile.  
 [x] View list of gamer  
-[] Make list of gamer searchable
-[] Sort list of gamer base on the game current gamer play  
+[] Make list of gamer searchable  
+[] Sort list of gamer base on the game current gamer play(Option 1)
+[] Sort by number of follower(Option 2)
 [x] Add friend/Following  
 [x] View Friend/Following list
 

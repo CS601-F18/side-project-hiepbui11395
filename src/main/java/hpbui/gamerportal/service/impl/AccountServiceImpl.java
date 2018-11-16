@@ -1,10 +1,10 @@
 package hpbui.gamerportal.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import hpbui.gamerportal.entity.Account;
+import hpbui.gamerportal.entity.Role;
+import hpbui.gamerportal.repository.AccountRepository;
+import hpbui.gamerportal.repository.RoleRepository;
+import hpbui.gamerportal.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import hpbui.gamerportal.entity.Account;
-import hpbui.gamerportal.entity.Role;
-import hpbui.gamerportal.repository.AccountRepository;
-import hpbui.gamerportal.repository.RoleRepository;
-import hpbui.gamerportal.service.AccountService;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class AccountServiceImpl implements AccountService, UserDetailsService{
@@ -41,6 +40,10 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 	public Account findAccountByEmail(String email) {
 		return accountRepository.findByEmail(email);
 	}
+
+    public Account findAccountByUsername(String username) {
+        return accountRepository.findAccountByUsername(username);
+    }
 
 	public void addAccount(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
@@ -64,8 +67,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO implement load user
-		Account account = accountRepository.findByEmail(username);
+        Account account = accountRepository.findAccountByUsername(username);
 
 		if (account == null) {
 			throw new UsernameNotFoundException("User " //
@@ -87,7 +89,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 
-		UserDetails userDetails = (UserDetails) new User(account.getEmail(), //
+        UserDetails userDetails = new User(account.getUsername(), //
 				account.getPassword(), enabled, accountNonExpired, //
 				credentialsNonExpired, accountNonLocked, grantList);
 

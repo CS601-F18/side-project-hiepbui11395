@@ -48,7 +48,11 @@
                 "mData": 0,
                 "visible": false,
             },{
-                "mData":1
+                "mData": 1,
+                "render": function (mData, type, row, meta) {
+                    console.log(row[0]);
+                    return '<a href="/accounts/' + row[0] + '">' + mData + '</a>';
+                }
             }, {
                 "mData":2
             }, {

@@ -1,18 +1,15 @@
 package hpbui.gamerportal.controller;
 
-import javax.validation.Valid;
-
+import hpbui.gamerportal.entity.Account;
+import hpbui.gamerportal.service.impl.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import hpbui.gamerportal.entity.Account;
-import hpbui.gamerportal.service.impl.AccountServiceImpl;
+import javax.validation.Valid;
 
 @Controller
 public class LoginController {
@@ -38,7 +35,13 @@ public class LoginController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid Account account, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        Account accountEntity = accountServiceImpl.findAccountByEmail(account.getEmail());
+        Account accountEntity = accountServiceImpl.findAccountByUsername(account.getUsername());
+        if (accountEntity != null) {
+            bindingResult
+                    .rejectValue("username", "error.user",
+                            "This username is taken.");
+        }
+        accountEntity = accountServiceImpl.findAccountByEmail(account.getEmail());
         if (accountEntity != null) {
             bindingResult
                     .rejectValue("email", "error.user",
@@ -53,17 +56,6 @@ public class LoginController {
             modelAndView.setViewName("registration");
 
         }
-        return modelAndView;
-    }
-
-    @RequestMapping(value="/admin/home", method = RequestMethod.GET)
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account account = accountServiceImpl.findAccountByEmail(auth.getName());
-        modelAndView.addObject("accountEmail", "Welcome " + account.getEmail());
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin/home");
         return modelAndView;
     }
 }

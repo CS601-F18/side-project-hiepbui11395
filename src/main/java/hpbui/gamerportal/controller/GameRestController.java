@@ -55,10 +55,10 @@ public class GameRestController {
 		dataTableResponse.addProperty("sEcho", sEcho);
 		dataTableResponse.addProperty("iTotalRecords", iTotalRecords);
 		dataTableResponse.addProperty("iTotalDisplayRecords", iTotalDisplayRecords);
-//		List<Game> result = gameList.getContent();
 		JsonArray data = new JsonArray();
 		for(Game game : gameList){
 	        JsonArray row = new JsonArray();
+            row.add(new JsonPrimitive(game.getId()));
 	        row.add(new JsonPrimitive(game.getName()));
 	        StringBuilder genreStr = new StringBuilder();
 	        for(Genre genre : game.getGenres()) {

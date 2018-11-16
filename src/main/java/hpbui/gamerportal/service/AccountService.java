@@ -7,6 +7,8 @@ import org.springframework.data.domain.PageRequest;
 public interface AccountService {
     
     Account findAccountByEmail(String email);
+
+    Account findAccountByUsername(String username);
     
     Account findAccountById(int id);
     
