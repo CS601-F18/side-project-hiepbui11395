@@ -14,12 +14,18 @@ public class RelationshipServiceImpl implements RelationshipService {
     RelationshipRepository relationshipRepository;
 
     @Override
-    public void addFriend(Account accountFrom, Account accountTo) {
-        Relationship relationship = new Relationship(
-                accountFrom.getId(),
-                accountTo.getId(),
-                Enums.Relationship.PENDING.ordinal(),
-                true);
+    public void changeRelationship(Account accountFrom, Account accountTo, int relationshipType) {
+        Relationship relationship = this.findRelationship(accountFrom.getId(), accountTo.getId());
+        if(relationship == null){
+            relationship = new Relationship(
+                    accountFrom.getId(),
+                    accountTo.getId(),
+                    relationshipType
+            );
+        } else{
+            relationship.setType(relationshipType);
+        }
+        relationshipRepository.save(relationship);
     }
 
     @Override

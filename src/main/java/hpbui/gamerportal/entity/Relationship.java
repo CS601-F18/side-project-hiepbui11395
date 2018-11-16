@@ -23,11 +23,13 @@ public class Relationship {
 	@Column(nullable = false)
 	private int type;
 
-	public Relationship(int idAccountFrom, int idAccountTo, int type, boolean active) {
+    public Relationship() {
+    }
+
+    public Relationship(int idAccountFrom, int idAccountTo, int type) {
 		this.idAccountFrom = idAccountFrom;
 		this.idAccountTo = idAccountTo;
 		this.type = type;
-		this.active = active;
 	}
 
 	public int getIdAccountFrom() {
@@ -54,8 +56,6 @@ public class Relationship {
 		this.type = type;
 	}
 
-	@Column(nullable = false)
-	private boolean active;
 
 	public int getId() {
 		return id;
@@ -65,12 +65,4 @@ public class Relationship {
 		this.id = id;
 	}
 
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
 }

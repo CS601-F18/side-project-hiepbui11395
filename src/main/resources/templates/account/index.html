@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Game List</title>
     <th:block th:include="/_static"></th:block>
+    <script type="text/javascript" th:src="@{/js/follow.js}"></script>
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
@@ -18,6 +19,7 @@
             <table id="accounts" class="display">
                 <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Username</th>
                     <th>Games</th>
                     <th></th>
@@ -36,18 +38,38 @@
 </body>
 <script>
     $(document).ready(function() {
-        $("#accounts").dataTable({
+        var accountTable = $("#accounts").DataTable({
             "bServerSide" : true,
             "sAjaxSource" : "/api/accounts/getDataTable",
             "bProcessing" : true,
             "sPaginationType" : "full_numbers",
             "bJQueryUI" : true,
             "aoColumns": [{
-                "mData": 0
+                "mData": 0,
+                "visible": false,
+            },{
+                "mData":1
             }, {
-                "mData": 1
+                "mData":2
+            }, {
+                "mData":3,
+                "render": function(mData, type, row, meta){
+                    if(mData == 0){
+                        return '<button value="1">Follow</button>';
+                    } else{
+                        return '<button value="0">Unfollow</button>';
+                    }
+                }
             }]
         });
+        $('#accounts tbody').on( 'click', 'button', function () {
+            var data = accountTable.row( $(this).parents('tr') ).data();
+            if($(this).val() == "1"){
+                follow(this,data,1,"Unfollow")
+            } else{
+                follow(this,data,0,"Follow")
+            }
+        } );
     });
 </script>
 </html>

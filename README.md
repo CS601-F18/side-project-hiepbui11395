@@ -4,25 +4,44 @@ Gamer portal is a page for gamer to find and connect with others who have the sa
 ### Part 1 - System Design
 The web application will be implemented by using Java with Spring Framework.
 
+
 ### Part 2 - Database Desin
 ![alt DBDesign](https://i.imgur.com/of9bCGk.jpg)
+[x] Design database
+[x] Design entity base on DB
 
 ### Part 3 - Security
-This web page will have three roles, GUEST, USER(GAMER) and ADMIN.
-GUEST can only see generic information.
-USER can create their profile with playing games, playing times and get recommendation.
-ADMIN can fetch data from API and put into server database
+This web page will have three roles, GUEST, USER(GAMER) and ADMIN.  
+GUEST can only see generic information.  
+USER can create their profile with playing games, playing times and get recommendation.  
+ADMIN can fetch data from API and put into server database  
+[x] Login  
+[x] Register  
+[x] Logout  
 
 ### Part 4 - Fetching data
-Games and Genre data will be fetch from GiantBomb database by using their supported API (https://www.giantbomb.com/api/)
-ADMIN will login and choose Fetch DB to get data/put new data into database.
+Games and Genre data will be fetch from GiantBomb database by using their supported API (https://www.giantbomb.com/api/)  
+ADMIN will login and choose Fetch DB to get data/put new data into database.  
+[x] Fetch Genres data  
+[x] Fetch Games data  
+[] Because of the limitation of free API, make the fetching process delay every N request
 
-### Part 5 - Recommend USER to each other
-Base on their input game -> playing time, system will suggest people who have the same interesting, then the same playing time
-
+### Part 5 - User ability
+[x] View account detail  
+[x] Add game with time  
+[x] View list of game and number of user  
+[] Make table list of games searchable  
+[] View list of genre  
+[] View game base on genre  
+[] View the gamer who play that game  
 
 ### Part 6 - Connecting people
-Two USER(GAMER) can connect with each other after they login and go to the other profile.
+Two USER(GAMER) can connect with each other after they login and go to the other profile.  
+[x] View list of gamer  
+[] Make list of gamer searchable
+[] Sort list of gamer base on the game current gamer play 
+[x] Add friend/Following  
+[] View Friend/Following list
 
 ### Part 7 - Commenting/Chatting
 Two USER(GAMER) can communicate with each other after they login and go to the other profile.
