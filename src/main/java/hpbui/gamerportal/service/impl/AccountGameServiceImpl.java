@@ -8,8 +8,11 @@ import hpbui.gamerportal.service.AccountGameService;
 import hpbui.gamerportal.viewmodel.GameAddViewModel;
 import hpbui.gamerportal.viewmodel.GameWithTimeViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,8 +36,19 @@ public class AccountGameServiceImpl implements AccountGameService {
     @Override
     public GameWithTimeViewModel findTimeByAccountAndGame(Game game, Account account) {
         List<AccountGame> result = accountGameRepository.
-                findAccountGameByIdAccountAndIdGame(account.getId(),game.getId());
+                findAccountGamesByIdAccountAndIdGame(account.getId(), game.getId());
         GameWithTimeViewModel gameWithTime = new GameWithTimeViewModel(game,result);
         return gameWithTime;
+    }
+
+    @Override
+    public List<Account> findAccountsByGame(int idGame, Pageable pageable) {
+        List<Account> listAccount = new ArrayList<>();
+        Page<AccountGame> listAccountGame = accountGameRepository.findDistinctIdAccountAndIdGameByIdGame(idGame, pageable);
+
+        for (AccountGame accountGame : listAccountGame) {
+            listAccount.add(accountGame.getAccount());
+        }
+        return listAccount;
     }
 }

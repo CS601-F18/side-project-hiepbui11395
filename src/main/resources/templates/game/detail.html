@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Info</title>
+    <th:block th:include="/_static"></th:block>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+</head>
+<body>
+<th:block th:include="/_menu"></th:block>
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-4 game-container">
+        <div class="page-title"><h1>Game Info</h1></div>
+        <ul>
+            <li>Name: <span th:utext="${game.name}"></span></li>
+            <li>Genres:
+                <table border="1">
+                    <tbody>
+                    <th:block th:each="genre : ${game.genres}">
+                        <tr>
+                            <td th:text="${genre.name}"></td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+    <div class="col-4 following-container">
+        <table id="gamer" class="display">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-2"></div>
+</div>
+<th:block th:include="/_footer"></th:block>
+
+</body>
+<script>
+    $(document).ready(function () {
+        var gamerTable = $("#gamer").DataTable({
+            "bServerSide": true,
+            "sAjaxSource": "/api/accounts/getAccountByGame/" + [[${game.id}]],
+            "bProcessing": true,
+            "sPaginationType": "full_numbers",
+            "bJQueryUI": true,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "aoColumns": [{
+                "mData": 0,
+                "visible": false,
+            }, {
+                "mData": 1
+            }]
+        })
+    });
+</script>
+</html>

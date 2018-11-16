@@ -1,8 +1,7 @@
 package hpbui.gamerportal.entity;
 
-import java.util.Set;
-
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="gamer_portal.genres")
@@ -12,7 +11,7 @@ public class Genre {
 	private int id;
 
 	@Column(length=45, nullable=false)
-	private String genre;
+    private String name;
 
 	@Column(length=1, nullable=false)
 	private boolean active;
@@ -28,15 +27,23 @@ public class Genre {
 		this.id = id;
 	}
 
-	public String getGenre() {
-		return genre;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public boolean isActive() {
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
+    }
+
+    public boolean isActive() {
 		return active;
 	}
 

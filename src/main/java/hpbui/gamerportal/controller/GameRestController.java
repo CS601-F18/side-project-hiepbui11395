@@ -1,9 +1,14 @@
 package hpbui.gamerportal.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import hpbui.gamerportal.entity.Game;
+import hpbui.gamerportal.entity.Genre;
+import hpbui.gamerportal.model.JQueryDataTable;
+import hpbui.gamerportal.service.AccountService;
+import hpbui.gamerportal.service.GameService;
 import hpbui.gamerportal.viewmodel.GameViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,20 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
-import hpbui.gamerportal.entity.Account;
-import hpbui.gamerportal.entity.Game;
-import hpbui.gamerportal.entity.Genre;
-import hpbui.gamerportal.model.JQueryDataTable;
-import hpbui.gamerportal.service.AccountService;
-import hpbui.gamerportal.service.GameService;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class GameRestController {
@@ -67,7 +62,7 @@ public class GameRestController {
 	        row.add(new JsonPrimitive(game.getName()));
 	        StringBuilder genreStr = new StringBuilder();
 	        for(Genre genre : game.getGenres()) {
-	        	genreStr.append(genre.getGenre() + ", ");
+                genreStr.append(genre.getName() + ", ");
 	        }
 	        genreStr.delete(genreStr.length()-1, genreStr.length());
 	        row.add(genreStr.toString());

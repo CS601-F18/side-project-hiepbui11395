@@ -1,11 +1,10 @@
 package hpbui.gamerportal.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hpbui.gamerportal.entity.Genre;
 import hpbui.gamerportal.repository.GenreRepository;
 import hpbui.gamerportal.service.GenreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GenreServiceImpl implements GenreService{
@@ -19,7 +18,7 @@ public class GenreServiceImpl implements GenreService{
 
 	@Override
 	public void save(Genre genre) {
-		if(genreRepository.findByGenre(genre.getGenre())!=null){
+        if (genreRepository.findGenreByName(genre.getName()) != null) {
 			return;
 		}
 		genreRepository.save(genre);

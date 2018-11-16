@@ -1,20 +1,19 @@
 package hpbui.gamerportal.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
+import hpbui.gamerportal.entity.Genre;
+import hpbui.gamerportal.service.GenreService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import hpbui.gamerportal.entity.Genre;
-import hpbui.gamerportal.service.GenreService;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Controller
 public class GenreController {
@@ -61,7 +60,7 @@ public class GenreController {
 				for(int i = 0;i<jsonArray.length();i++) {
 					JSONObject genre = jsonArray.getJSONObject(i);
 					Genre entity = new Genre();
-					entity.setGenre(genre.getString("name"));
+                    entity.setName(genre.getString("name"));
 					entity.setActive(true);
 					genreService.save(entity);
 				}

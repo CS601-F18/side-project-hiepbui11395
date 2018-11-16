@@ -1,18 +1,18 @@
 package hpbui.gamerportal.controller;
 
-import java.util.ArrayList;
-
+import com.google.gson.Gson;
+import hpbui.gamerportal.entity.Game;
+import hpbui.gamerportal.service.GameService;
+import hpbui.gamerportal.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import com.google.gson.Gson;
-
-import hpbui.gamerportal.entity.Game;
-import hpbui.gamerportal.service.GameService;
-import hpbui.gamerportal.utils.Utils;
+import java.util.ArrayList;
 
 @Controller
 public class GameController {
@@ -65,4 +65,11 @@ public class GameController {
 		}
 		return "admin/index";
 	}
+
+    @GetMapping(path = "/games/{id}")
+    public String detail(Model model, @PathVariable int id) {
+        Game game = gameService.findById(id);
+        model.addAttribute("game", game);
+        return "game/detail";
+    }
 }

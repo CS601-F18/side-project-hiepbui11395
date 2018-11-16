@@ -1,11 +1,6 @@
 package hpbui.gamerportal.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "gamer_portal.relationship")
@@ -23,14 +18,38 @@ public class Relationship {
 	@Column(nullable = false)
 	private int type;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idAccountFrom", insertable = false, updatable = false)
+    private Account accountFrom;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idAccountTo", insertable = false, updatable = false)
+    private Account accountTo;
+
     public Relationship() {
     }
 
     public Relationship(int idAccountFrom, int idAccountTo, int type) {
-		this.idAccountFrom = idAccountFrom;
-		this.idAccountTo = idAccountTo;
-		this.type = type;
-	}
+        this.idAccountFrom = idAccountFrom;
+        this.idAccountTo = idAccountTo;
+        this.type = type;
+    }
+
+    public Account getAccountFrom() {
+        return accountFrom;
+    }
+
+    public void setAccountFrom(Account accountFrom) {
+        this.accountFrom = accountFrom;
+    }
+
+    public Account getAccountTo() {
+        return accountTo;
+    }
+
+    public void setAccountTo(Account accountTo) {
+        this.accountTo = accountTo;
+    }
 
 	public int getIdAccountFrom() {
 		return idAccountFrom;

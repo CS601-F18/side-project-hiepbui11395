@@ -1,52 +1,73 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Account Info</title>
-	<th:block th:include="/_static"></th:block>
+    <meta charset="UTF-8">
+    <title>Account Info</title>
+    <th:block th:include="/_static"></th:block>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 </head>
 <body>
 	<th:block th:include="/_menu"></th:block>
 
-	<div class="page-title">Account Info</div>
-	<div class="account-container">
-		<ul>
-			<li>Username: <!--/*@thymesVar id="account.username" type="account"*/-->
-			<span th:utext="${account.username}"></span></li>
-			<li>Email: <span th:utext="${account.email}"></span></li>
-			<li>Games:
-				<table border="1">
-					<thead>
-						<tr>
-							<th>Game</th>
-							<th>Time</th>
-						</tr>
-					</thead>
-					<tbody>
-					<th:block th:each="gameWithTime : ${games}">
-						<tr>
-							<td th:text="${gameWithTime.game.name}"></td>
-							<td >
-								<ul>
-									<li th:each="gameTime: ${gameWithTime.gameTimes}"
-										th:utext="${gameTime}"></li>
-								</ul>
-							</td>
-						</tr>
-					</th:block>
-					</tbody>
-				</table>
-				<button id="myBtn">Add games</button>
-			</li>
-		</ul>
-	</div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4 account-container">
+            <ul>
+                <div class="page-title"><h1>Account Info</h1></div>
+                <li>Username: <span th:utext="${account.username}"></span></li>
+                <li>Email: <span th:utext="${account.email}"></span></li>
+                <li>Games:
+                    <table border="1">
+                        <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="gameWithTime : ${games}">
+                            <tr>
+                                <td th:text="${gameWithTime.game.name}"></td>
+                                <td>
+                                    <ul>
+                                        <li th:each="gameTime: ${gameWithTime.gameTimes}"
+                                            th:utext="${gameTime}"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                    <button id="myBtn">Add games</button>
+                </li>
+            </ul>
+        </div>
 
-	<th:block th:include="/_footer"></th:block>
+        <div class="col-4 following-container">
+            <table id="following" class="display">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-2"></div>
+    </div>
+
+    <th:block th:include="/_footer"></th:block>
 
 
 	<!-- The Modal -->
 	<div id="addGameModel" class="modal">
-
 		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modal-header">
@@ -136,6 +157,22 @@
 			});
 		});
 
+        var followingTable = $("#following").DataTable({
+            "bServerSide": true,
+            "sAjaxSource": "/api/accounts/getFriendDataTable",
+            "bProcessing": true,
+            "sPaginationType": "full_numbers",
+            "bJQueryUI": true,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "aoColumns": [{
+                "mData": 0,
+                "visible": false,
+            }, {
+                "mData": 1
+            }]
+        })
 	});
 </script>
 </html>

@@ -1,9 +1,8 @@
 package hpbui.gamerportal.repository;
 
+import hpbui.gamerportal.entity.Genre;
 import org.springframework.data.repository.CrudRepository;
 
-import hpbui.gamerportal.entity.Genre;
-
 public interface GenreRepository extends CrudRepository<Genre, Integer> {
-	Genre findByGenre(String name);
+    Genre findGenreByName(String name);
 }

@@ -1,13 +1,5 @@
 package hpbui.gamerportal.service.impl;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.entity.GameGenre;
 import hpbui.gamerportal.entity.Genre;
@@ -15,6 +7,13 @@ import hpbui.gamerportal.repository.GameGenreRepository;
 import hpbui.gamerportal.repository.GameRepository;
 import hpbui.gamerportal.repository.GenreRepository;
 import hpbui.gamerportal.service.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -64,7 +63,7 @@ public class GameServiceImpl implements GameService {
 		game.setActive(true);
 		Game entity = gameRepository.save(game);
 		for(String genreName : genres) {
-			Genre genre = genreRepository.findByGenre(genreName);
+            Genre genre = genreRepository.findGenreByName(genreName);
 			GameGenre gameGenre = new GameGenre();
 			gameGenreRepository.save(gameGenre);
 		}
