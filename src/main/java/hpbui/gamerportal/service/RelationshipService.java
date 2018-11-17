@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface RelationshipService {
     void changeRelationship(Account accountFrom, Account accountTo, int relationshipType);
-    Relationship findRelationship(int idAccountFrom, int idAccountTo);
 
-    List<Account> findFriend(int accountId, Pageable pageable);
+    Relationship findRelationship(Long idAccountFrom, Long idAccountTo);
+
+    List<Account> findFriend(Long accountId, Pageable pageable);
 }

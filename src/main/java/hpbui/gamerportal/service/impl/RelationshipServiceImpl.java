@@ -34,12 +34,12 @@ public class RelationshipServiceImpl implements RelationshipService {
     }
 
     @Override
-    public Relationship findRelationship(int idAccountFrom, int idAccountTo) {
+    public Relationship findRelationship(Long idAccountFrom, Long idAccountTo) {
         return relationshipRepository.findByIdAccountFromAndIdAccountTo(idAccountFrom,idAccountTo);
     }
 
     @Override
-    public List<Account> findFriend(int accountId, Pageable pageable) {
+    public List<Account> findFriend(Long accountId, Pageable pageable) {
         List<Account> listAccount = new ArrayList<>();
         Page<Relationship> listRelationship = relationshipRepository.findByIdAccountFrom(accountId, pageable);
         for (Relationship relationship : listRelationship) {

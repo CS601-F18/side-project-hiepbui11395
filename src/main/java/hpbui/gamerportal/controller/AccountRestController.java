@@ -105,7 +105,7 @@ public class AccountRestController {
 	}
 
     @GetMapping(value = "/api/accounts/getFriendDataTable/{id}")
-    public String getFriendDataTable(JQueryDataTable dataTable, @PathVariable int id) {
+    public String getFriendDataTable(JQueryDataTable dataTable, @PathVariable long id) {
         Account currentAccount = accountService.findAccountById(id);
         String sEcho = dataTable.getsEcho();
 
@@ -132,7 +132,7 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/api/accounts/getAccountByGame/{id}")
-    public String getAccountByGameDataTable(JQueryDataTable dataTable, @PathVariable int id) {
+    public String getAccountByGameDataTable(JQueryDataTable dataTable, @PathVariable long id) {
         String sEcho = dataTable.getsEcho();
 
         List<Account> listAccount = accountGameService.findAccountsByGame(id, PageRequest.of(

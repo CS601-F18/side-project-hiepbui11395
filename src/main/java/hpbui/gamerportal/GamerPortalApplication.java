@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("hpbui.gamerportal.repository")
 @EntityScan("hpbui.gamerportal.entity")
 @SpringBootApplication
+//@EnableScheduling
 public class GamerPortalApplication {
 
 	public static void main(String[] args) {

@@ -12,5 +12,5 @@ public interface AccountGameService {
 	void addAccountGame(GameAddViewModel model, Game game, Account account);
 	GameWithTimeViewModel findTimeByAccountAndGame(Game game, Account account);
 
-    List<Account> findAccountsByGame(int idGame, Pageable pageable);
+    List<Account> findAccountsByGame(Long idGame, Pageable pageable);
 }

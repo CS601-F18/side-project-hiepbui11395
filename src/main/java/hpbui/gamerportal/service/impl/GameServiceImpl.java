@@ -31,7 +31,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Game findById(int id) {
+    public Game findById(Long id) {
 		Optional<Game> entity = gameRepository.findById(id);
 		if(entity.isPresent()) {
 			return entity.get();
@@ -46,7 +46,7 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public void delete(int id) {
+    public void delete(Long id) {
 		Optional<Game> entity = gameRepository.findById(id);
 		if(entity.isPresent()) {
 			entity.get().setActive(false);
@@ -64,8 +64,10 @@ public class GameServiceImpl implements GameService {
 		Game entity = gameRepository.save(game);
 		for(String genreName : genres) {
             Genre genre = genreRepository.findGenreByName(genreName);
-			GameGenre gameGenre = new GameGenre();
-			gameGenreRepository.save(gameGenre);
+            if (genre != null) {
+                GameGenre gameGenre = new GameGenre(entity.getId(), genre.getId());
+                gameGenreRepository.save(gameGenre);
+            }
 		}
 	}
 
@@ -75,7 +77,12 @@ public class GameServiceImpl implements GameService {
 		return gameRepository.findAll(pageRequest);
 	}
 
-	@Override
+    @Override
+    public long getNumberOfGame() {
+        return gameRepository.count();
+    }
+
+    @Override
 	public Game findByName(String name) {
 		return gameRepository.findByName(name);
 	}

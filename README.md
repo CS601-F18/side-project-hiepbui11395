@@ -39,8 +39,8 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 Two USER(GAMER) can connect with each other after they login and go to the other profile.  
 [x] View list of gamer  
 [] Make list of gamer searchable  
-[] Sort list of gamer base on the game current gamer play(Option 1)
-[] Sort by number of follower(Option 2)
+[] Sort list of gamer base on the game current gamer play(Option 1)  
+[] Sort by number of follower(Option 2)  
 [x] Add friend/Following  
 [x] View Friend/Following list
 

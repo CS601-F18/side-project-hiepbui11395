@@ -1,15 +1,14 @@
 package hpbui.gamerportal.entity;
 
-import java.util.Set;
-
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "gamer_portal.games")
 public class Game {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
 	@Column(length = 128, nullable = false)
 	private String name;
@@ -29,11 +28,11 @@ public class Game {
 	inverseJoinColumns = {@JoinColumn(name="idAccount")})
 	private Set<Account> accounts;
 
-	public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 

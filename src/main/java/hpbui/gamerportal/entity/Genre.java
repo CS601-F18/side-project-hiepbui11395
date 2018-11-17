@@ -8,7 +8,7 @@ import java.util.Set;
 public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    private Long id;
 
 	@Column(length=45, nullable=false)
     private String name;
@@ -19,11 +19,11 @@ public class Genre {
 	@ManyToMany(mappedBy="genres", fetch = FetchType.LAZY)
 	private Set<Game> games;
 
-	public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 

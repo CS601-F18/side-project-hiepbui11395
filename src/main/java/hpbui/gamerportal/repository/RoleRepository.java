@@ -1,9 +1,8 @@
 package hpbui.gamerportal.repository;
 
+import hpbui.gamerportal.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import hpbui.gamerportal.entity.Role;
-
-public interface RoleRepository extends JpaRepository<Role, Integer>{
+public interface RoleRepository extends JpaRepository<Role, Long> {
 	Role findByRoleName(String roleName);
 }

@@ -9,8 +9,8 @@ public interface AccountService {
     Account findAccountByEmail(String email);
 
     Account findAccountByUsername(String username);
-    
-    Account findAccountById(int id);
+
+    Account findAccountById(Long id);
     
     void addAccount(Account account);
 

@@ -1,7 +1,7 @@
 package hpbui.gamerportal.viewmodel;
 
 public class FollowViewModel {
-    private int id;
+    private Long id;
 
     public int getRelationshipType() {
         return relationshipType;
@@ -13,11 +13,11 @@ public class FollowViewModel {
 
     private int relationshipType;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

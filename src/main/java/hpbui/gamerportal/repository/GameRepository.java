@@ -1,9 +1,8 @@
 package hpbui.gamerportal.repository;
 
+import hpbui.gamerportal.entity.Game;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import hpbui.gamerportal.entity.Game;
-
-public interface GameRepository extends PagingAndSortingRepository<Game, Integer> {
+public interface GameRepository extends PagingAndSortingRepository<Game, Long> {
 	Game findByName(String name);
 }

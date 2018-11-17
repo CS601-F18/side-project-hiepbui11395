@@ -48,7 +48,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 	public void addAccount(Account account) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		account.setActive(true);
-		List<Role> userRole = roleRepository.findAll();
+        List<Role> userRole = new ArrayList<>();
+        userRole.add(roleRepository.findByRoleName("GAMER"));
 		account.setRoles(new HashSet<Role>(userRole));
 		accountRepository.save(account);
 	}
@@ -59,7 +60,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 	}
 
 	@Override
-	public Account findAccountById(int id) {
+    public Account findAccountById(Long id) {
 		Account entity = accountRepository.findById(id)==null?null:accountRepository.findById(id).get();
 		return entity;
 	}

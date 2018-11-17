@@ -1,8 +1,5 @@
 package hpbui.gamerportal.entity;
 
-import java.util.Date;
-import java.util.Set;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,13 +7,13 @@ import javax.persistence.*;
 public class AccountGame {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    private Long id;
 
 	@Column(nullable = false)
-	private int idAccount;
+    private long idAccount;
 
 	@Column(nullable = false)
-	private int idGame;
+    private long idGame;
 
 	@Column
 	private int startTime;
@@ -35,27 +32,27 @@ public class AccountGame {
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
-	public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 
-	public int getIdAccount() {
+    public long getIdAccount() {
 		return idAccount;
 	}
 
-	public void setIdAccount(int idAccount) {
+    public void setIdAccount(long idAccount) {
 		this.idAccount = idAccount;
 	}
 
-	public int getIdGame() {
+    public long getIdGame() {
 		return idGame;
 	}
 
-	public void setIdGame(int idGame) {
+    public void setIdGame(long idGame) {
 		this.idGame = idGame;
 	}
 

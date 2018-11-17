@@ -7,35 +7,41 @@ import javax.persistence.*;
 public class GameGenre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    private Long id;
 
 	@Column(nullable = false)
-	private int idGame;
+    private long idGame;
 
 	@Column(nullable = false)
-	private int idGenre;
+    private long idGenre;
 
-	public int getId() {
+    public GameGenre(Long idGame, Long idGenre) {
+        this.idGame = idGame;
+        this.idGenre = idGenre;
+    }
+
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 
-	public int getIdGame() {
+    public long getIdGame() {
 		return idGame;
 	}
 
-	public void setIdGame(int idGame) {
+    public void setIdGame(long idGame) {
 		this.idGame = idGame;
 	}
 
-	public int getIdGenre() {
+    public long getIdGenre() {
 		return idGenre;
 	}
 
-	public void setIdGenre(int idGenre) {
+    public void setIdGenre(long idGenre) {
 		this.idGenre = idGenre;
 	}
+
 }

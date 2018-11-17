@@ -1,24 +1,25 @@
 package hpbui.gamerportal.service;
 
-import java.util.ArrayList;
-
+import hpbui.gamerportal.entity.Game;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import hpbui.gamerportal.entity.Game;
+import java.util.ArrayList;
 
 public interface GameService {
 	Iterable<Game> findAll();
 
-	Game findById(int id);
+    Game findById(Long id);
 	
 	Game findByName(String name);
 
 	void save(Game game);
 
-	void delete(int id);
+    void delete(Long id);
 	
 	void addGame(Game game, ArrayList<String> genres);
 	
 	Page<Game> getAllPagination(PageRequest pageRequest);
+
+    long getNumberOfGame();
 }

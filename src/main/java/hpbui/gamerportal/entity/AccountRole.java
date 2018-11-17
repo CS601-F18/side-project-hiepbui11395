@@ -7,13 +7,13 @@ import javax.persistence.*;
 public class AccountRole {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    private Long id;
 
 	@Column(nullable=false)
-	private int idAccount;
+    private long idAccount;
 
 	@Column(nullable=false)
-	private int idRole;
+    private long idRole;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idAccount", insertable = false, updatable = false)
@@ -27,27 +27,27 @@ public class AccountRole {
         this.account = account;
     }
 
-    public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 
-	public int getIdAccount() {
+    public long getIdAccount() {
 		return idAccount;
 	}
 
-	public void setIdAccount(int idAccount) {
+    public void setIdAccount(long idAccount) {
 		this.idAccount = idAccount;
 	}
 
-	public int getIdRole() {
+    public long getIdRole() {
 		return idRole;
 	}
 
-	public void setIdRole(int idRole) {
+    public void setIdRole(long idRole) {
 		this.idRole = idRole;
 	}
 	

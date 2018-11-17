@@ -1,23 +1,23 @@
 package hpbui.gamerportal.viewmodel;
 
 public class GameViewModel {
-    private int id;
+    private Long id;
 
     private String name;
 
     private boolean active;
 
-    public GameViewModel(int id, String name, boolean active) {
+    public GameViewModel(Long id, String name, boolean active) {
         this.id = id;
         this.name = name;
         this.active = active;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

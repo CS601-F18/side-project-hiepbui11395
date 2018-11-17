@@ -1,20 +1,9 @@
 package hpbui.gamerportal.entity;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table(name = "gamer_portal.accounts")
@@ -22,7 +11,7 @@ public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    private Long id;
 
 	@Column(name = "username", length = 45, nullable = false)
     @NotEmpty(message = "*Please provide an username")
@@ -41,7 +30,7 @@ public class Account {
 	private boolean active;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(name = "gamer_portal.account_role", 
+    @JoinTable(name = "gamer_portal.account_role",
 	joinColumns = {@JoinColumn(name="idAccount")},
 	inverseJoinColumns = {@JoinColumn(name="idRole")})
 	private Set<Role> roles;
@@ -50,16 +39,16 @@ public class Account {
 	private Set<Game> games;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinTable(name = "gamer_portal.account_account", 
-	joinColumns = {@JoinColumn(name="idAccount1")}, 
-	inverseJoinColumns = {@JoinColumn(name="idAccount2")})
+    @JoinTable(name = "gamer_portal.relationship",
+            joinColumns = {@JoinColumn(name = "idAccountFrom")},
+            inverseJoinColumns = {@JoinColumn(name = "idAccountTo")})
 	private Set<Account> accounts;
 
-	public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 

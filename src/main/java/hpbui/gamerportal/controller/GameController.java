@@ -28,16 +28,17 @@ public class GameController {
 
 	@GetMapping(path="/admin/game/get")
 	public String getGame() {
-		int offset = 200;
-		int total = Integer.MAX_VALUE;
-		while(offset<total) {
+        long offset = gameService.getNumberOfGame();
+//		long total = Long.MAX_VALUE;
+        long total = 100;
+        while (offset < 200) {
 			String urlString = "https://www.giantbomb.com/api/games/?api_key=24a0f044a74d7d88224268e7cbc11c39007727fc&"
 					+ "format=json&"
 					+ "field_list=id,name&"
 					+ "offset=" + offset;
 			String response = Utils.callGetApi(urlString);
 			JSONObject jsonObject = new JSONObject(response);
-			total = jsonObject.getInt("number_of_total_results");
+            //total = jsonObject.getInt("number_of_total_results");
 			JSONArray jsonGameArray = jsonObject.getJSONArray("results");
 			for(int i = 0;i<jsonGameArray.length();i++) {
 				JSONObject jsonGameObject = jsonGameArray.getJSONObject(i);
@@ -54,20 +55,13 @@ public class GameController {
 				}
 				gameService.addGame(game, genres);
 			}
-			System.out.println("get from: " + offset + " - to: " + offset+100);
-			try {
-				Thread.sleep(60000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			offset+=100;
+            System.out.println("get from: " + offset + " - to: " + offset);
 		}
 		return "admin/index";
 	}
 
     @GetMapping(path = "/games/{id}")
-    public String detail(Model model, @PathVariable int id) {
+    public String detail(Model model, @PathVariable Long id) {
         Game game = gameService.findById(id);
         model.addAttribute("game", game);
         return "game/detail";

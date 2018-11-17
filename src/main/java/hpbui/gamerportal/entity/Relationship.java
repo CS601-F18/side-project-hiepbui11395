@@ -7,13 +7,13 @@ import javax.persistence.*;
 public class Relationship {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    private Long id;
 	
 	@Column(nullable = false)
-	private int idAccountFrom;
+    private long idAccountFrom;
 	
 	@Column(nullable = false)
-	private int idAccountTo;
+    private long idAccountTo;
 
 	@Column(nullable = false)
 	private int type;
@@ -29,7 +29,7 @@ public class Relationship {
     public Relationship() {
     }
 
-    public Relationship(int idAccountFrom, int idAccountTo, int type) {
+    public Relationship(Long idAccountFrom, Long idAccountTo, int type) {
         this.idAccountFrom = idAccountFrom;
         this.idAccountTo = idAccountTo;
         this.type = type;
@@ -51,19 +51,19 @@ public class Relationship {
         this.accountTo = accountTo;
     }
 
-	public int getIdAccountFrom() {
+    public long getIdAccountFrom() {
 		return idAccountFrom;
 	}
 
-	public void setIdAccountFrom(int idAccountFrom) {
+    public void setIdAccountFrom(long idAccountFrom) {
 		this.idAccountFrom = idAccountFrom;
 	}
 
-	public int getIdAccountTo() {
+    public long getIdAccountTo() {
 		return idAccountTo;
 	}
 
-	public void setIdAccountTo(int idAccountTo) {
+    public void setIdAccountTo(long idAccountTo) {
 		this.idAccountTo = idAccountTo;
 	}
 
@@ -76,11 +76,11 @@ public class Relationship {
 	}
 
 
-	public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(Long id) {
 		this.id = id;
 	}
 

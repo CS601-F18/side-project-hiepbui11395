@@ -26,10 +26,10 @@ public class AccountGameServiceImpl implements AccountGameService {
         entity.setActive(true);
         entity.setStartTime(model.getStartTime());
         entity.setEndTime(model.getEndTime());
-//        entity.setIdAccount(account.getId());
-//        entity.setIdGame(game.getId());
-        entity.setAccount(account);
-        entity.setGame(game);
+        entity.setIdAccount(account.getId());
+        entity.setIdGame(game.getId());
+//        entity.setAccount(account);
+//        entity.setGame(game);
         accountGameRepository.save(entity);
     }
 
@@ -42,7 +42,7 @@ public class AccountGameServiceImpl implements AccountGameService {
     }
 
     @Override
-    public List<Account> findAccountsByGame(int idGame, Pageable pageable) {
+    public List<Account> findAccountsByGame(Long idGame, Pageable pageable) {
         List<Account> listAccount = new ArrayList<>();
         Page<AccountGame> listAccountGame = accountGameRepository.findDistinctIdAccountAndIdGameByIdGame(idGame, pageable);
 

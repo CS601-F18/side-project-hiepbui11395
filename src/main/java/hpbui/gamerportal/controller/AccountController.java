@@ -38,7 +38,7 @@ public class AccountController {
 	}
 
     @GetMapping(path = "/accounts/{id}")
-    public String info(Model model, @PathVariable int id) {
+    public String info(Model model, @PathVariable long id) {
         Account account = accountService.findAccountById(id);
         model.addAttribute("account", account);
         List<GameWithTimeViewModel> gameWithTimes = new ArrayList<>();
