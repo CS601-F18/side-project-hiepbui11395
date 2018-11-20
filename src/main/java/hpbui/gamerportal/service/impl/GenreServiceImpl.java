@@ -18,7 +18,7 @@ public class GenreServiceImpl implements GenreService{
 
 	@Override
 	public void save(Genre genre) {
-        if (genreRepository.findGenreByName(genre.getName()) != null) {
+        if (genreRepository.findGenreByNameAndActiveTrue(genre.getName()) != null) {
 			return;
 		}
 		genreRepository.save(genre);

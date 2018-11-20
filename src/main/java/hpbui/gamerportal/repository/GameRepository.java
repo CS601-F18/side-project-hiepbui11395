@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface GameRepository extends PagingAndSortingRepository<Game, Long> {
-	Game findByName(String name);
+    Game findByNameAndActiveTrue(String name);
 
-    Page<Game> findGamesByNameContaining(String name, Pageable pageable);
+    Page<Game> findGamesByNameContainingAndActiveTrue(String name, Pageable pageable);
 }

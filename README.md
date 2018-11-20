@@ -33,7 +33,7 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 [x] View list of game and number of user  
 [x] View gamer who play a specific game  
 [] Sort list of user by number of following  
-[] Make list of games searchable  
+[x] Make list of games searchable  
 [x] Can redirect to Gamer detail page/Game detail page from list of users/games  
 
 ### Part 6 - Connecting people

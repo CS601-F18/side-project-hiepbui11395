@@ -4,11 +4,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import hpbui.gamerportal.entity.Account;
-import hpbui.gamerportal.entity.AccountRole;
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.entity.Relationship;
+import hpbui.gamerportal.entity.Role;
 import hpbui.gamerportal.model.JQueryDataTable;
 import hpbui.gamerportal.service.*;
+import hpbui.gamerportal.utils.Config;
 import hpbui.gamerportal.utils.Enums;
 import hpbui.gamerportal.utils.JsonResponse;
 import hpbui.gamerportal.viewmodel.FollowViewModel;
@@ -16,6 +17,7 @@ import hpbui.gamerportal.viewmodel.GameAddViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,8 @@ public class AccountRestController {
 	RelationshipService relationshipService;
 	@Autowired
     AccountRoleService accountRoleService;
+    @Autowired
+    RoleService roleService;
 
 	@PostMapping(path = "/account/games/add")
 	public JsonResponse addAccountGame(GameAddViewModel model) {
@@ -64,42 +68,50 @@ public class AccountRestController {
 	}
 
 	@GetMapping(value="/api/accounts/getDataTable")
-    public String getAccountDataTable(JQueryDataTable dataTable) {
+    public String getGamerDataTable(JQueryDataTable dataTable) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.
 				getContext().getAuthentication().getPrincipal();
         Account currentAccount = accountService.findAccountByUsername(userDetails.getUsername());
 		String sEcho = dataTable.getsEcho();
-        Page<AccountRole> accountRoleList = accountRoleService.findAccountByRoleName("GAMER",PageRequest.of(
-                (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
-                dataTable.getiDisplayLength()));
-        long iTotalRecords = accountRoleList.getTotalElements();
-        long iTotalDisplayRecords = accountRoleList.getTotalElements();
+        String query = dataTable.getsSearch();
+        Page<Account> gamerList;
+        Pageable pageable = PageRequest.of((dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
+                dataTable.getiDisplayLength());
+        if (query.isEmpty()) {
+            Role role = roleService.findRoleByRoleName(Config.getInstance().getProperty("gamer"));
+            gamerList = accountService.findAccountsByRole(role, pageable);
+        } else {
+            Role role = roleService.findRoleByRoleName(Config.getInstance().getProperty("gamer"));
+            gamerList = accountService.findAccountsByRoleAndUsernameContain(query, role, pageable);
+        }
+        long iTotalRecords = gamerList.getTotalElements();
+        long iTotalDisplayRecords = gamerList.getTotalElements();
 		JsonObject dataTableResponse = new JsonObject();
 		dataTableResponse.addProperty("sEcho", sEcho);
 		dataTableResponse.addProperty("iTotalRecords", iTotalRecords);
 		dataTableResponse.addProperty("iTotalDisplayRecords", iTotalDisplayRecords);
 		JsonArray data = new JsonArray();
-		for(AccountRole accountRole : accountRoleList){
-			JsonArray row = new JsonArray();
-			//Add Id
-            row.add(accountRole.getIdAccount());
+        for (Account gamer : gamerList) {
+            JsonArray row = new JsonArray();
+            //Add Id
+            row.add(new JsonPrimitive(gamer.getId()));
             //Add username
-			row.add(new JsonPrimitive(accountRole.getAccount().getUsername()));
-			StringBuilder genreStr = new StringBuilder();
-			for(Game game : accountRole.getAccount().getGames()) {
-				genreStr.append(game.getName() + "<br/>\n");
-			}
-			//Add game
-			row.add(genreStr.toString());
-			//Add relationship
-			Relationship relationship = relationshipService.findRelationship(currentAccount.getId(), accountRole.getAccount().getId());
-			if(relationship == null || relationship.getType() == Enums.Relationship.NO_RELATION.ordinal()){
-				row.add(Enums.Relationship.NO_RELATION.ordinal());
-			} else{
-				row.add(Enums.Relationship.FOLLOWING.ordinal());
-			}
-			data.add(row);
-		}
+            row.add(new JsonPrimitive(gamer.getUsername()));
+            StringBuilder genreStr = new StringBuilder();
+            for (Game game : gamer.getGames()) {
+                genreStr.append(game.getName() + "<br/>\n");
+            }
+            //Add game
+            row.add(genreStr.toString());
+            //Add relationship
+            Relationship relationship = relationshipService.findRelationship(currentAccount.getId(), gamer.getId());
+            if (relationship == null || relationship.getType() == Enums.Relationship.NO_RELATION.ordinal()) {
+                row.add(Enums.Relationship.NO_RELATION.ordinal());
+            } else {
+                row.add(Enums.Relationship.FOLLOWING.ordinal());
+            }
+            data.add(row);
+        }
 		dataTableResponse.add("aaData", data);
 		return dataTableResponse.toString();
 	}
@@ -135,11 +147,14 @@ public class AccountRestController {
     public String getAccountByGameDataTable(JQueryDataTable dataTable, @PathVariable long id) {
         String sEcho = dataTable.getsEcho();
 
-        List<Account> listAccount = accountGameService.findAccountsByGame(id, PageRequest.of(
+//        List<Account> listAccount = accountGameService.findAccountsByGame(id, PageRequest.of(
+//                (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
+//                dataTable.getiDisplayLength()));
+        Page<Account> listAccount = accountService.findAccountsByGame(id, PageRequest.of(
                 (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
                 dataTable.getiDisplayLength()));
-        long iTotalRecords = listAccount.size();
-        long iTotalDisplayRecords = listAccount.size();
+        long iTotalRecords = listAccount.getTotalElements();
+        long iTotalDisplayRecords = listAccount.getTotalElements();
         JsonObject dataTableResponse = new JsonObject();
         dataTableResponse.addProperty("sEcho", sEcho);
         dataTableResponse.addProperty("iTotalRecords", iTotalRecords);

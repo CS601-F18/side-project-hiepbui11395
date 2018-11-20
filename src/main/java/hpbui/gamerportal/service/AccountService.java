@@ -1,8 +1,9 @@
 package hpbui.gamerportal.service;
 
 import hpbui.gamerportal.entity.Account;
+import hpbui.gamerportal.entity.Role;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 public interface AccountService {
     
@@ -14,5 +15,9 @@ public interface AccountService {
     
     void addAccount(Account account);
 
-    Page<Account> getAllPagination(PageRequest pageRequest);
+    Page<Account> findAccountsByRole(Role role, Pageable pageable);
+
+    Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Pageable pageable);
+
+    Page<Account> findAccountsByGame(long gameId, Pageable pageable);
 }

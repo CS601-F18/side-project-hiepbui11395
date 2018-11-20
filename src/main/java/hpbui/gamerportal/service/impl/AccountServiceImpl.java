@@ -1,13 +1,15 @@
 package hpbui.gamerportal.service.impl;
 
 import hpbui.gamerportal.entity.Account;
+import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.entity.Role;
 import hpbui.gamerportal.repository.AccountRepository;
+import hpbui.gamerportal.repository.GameRepository;
 import hpbui.gamerportal.repository.RoleRepository;
 import hpbui.gamerportal.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,8 +26,12 @@ import java.util.Set;
 
 @Service
 public class AccountServiceImpl implements AccountService, UserDetailsService{
-	private AccountRepository accountRepository;
-	private RoleRepository roleRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private GameRepository gameRepository;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
@@ -42,7 +48,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 	}
 
     public Account findAccountByUsername(String username) {
-        return accountRepository.findAccountByUsername(username);
+        return accountRepository.findAccountByUsernameAndActiveTrue(username);
     }
 
 	public void addAccount(Account account) {
@@ -54,12 +60,23 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 		accountRepository.save(account);
 	}
 
-	@Override
-	public Page<Account> getAllPagination(PageRequest pageRequest) {
-		return accountRepository.findAll(pageRequest);
-	}
+    @Override
+    public Page<Account> findAccountsByRole(Role role, Pageable pageable) {
+        return accountRepository.findAccountsByRolesAndActiveTrue(role, pageable);
+    }
 
-	@Override
+    @Override
+    public Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Pageable pageable) {
+        return accountRepository.findAccountsByRolesAndUsernameContainingAndActiveTrue(role, query, pageable);
+    }
+
+    @Override
+    public Page<Account> findAccountsByGame(long gameId, Pageable pageable) {
+        Game game = gameRepository.findById(gameId).get();
+        return accountRepository.findAccountsByGamesContainingAndActiveTrue(game, pageable);
+    }
+
+    @Override
     public Account findAccountById(Long id) {
 		Account entity = accountRepository.findById(id)==null?null:accountRepository.findById(id).get();
 		return entity;
@@ -68,7 +85,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findAccountByUsername(username);
+        Account account = accountRepository.findAccountByUsernameAndActiveTrue(username);
 
 		if (account == null) {
 			throw new UsernameNotFoundException("User " //

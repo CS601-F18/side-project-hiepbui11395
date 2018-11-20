@@ -58,13 +58,13 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public void addGame(Game game, ArrayList<String> genres) {
-		if(gameRepository.findByName(game.getName())!=null){
+        if (gameRepository.findByNameAndActiveTrue(game.getName()) != null) {
 			return;
 		}
 		game.setActive(true);
 		Game entity = gameRepository.save(game);
 		for(String genreName : genres) {
-            Genre genre = genreRepository.findGenreByName(genreName);
+            Genre genre = genreRepository.findGenreByNameAndActiveTrue(genreName);
             if (genre != null) {
                 GameGenre gameGenre = new GameGenre(entity.getId(), genre.getId());
                 gameGenreRepository.save(gameGenre);
@@ -85,12 +85,12 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Page<Game> findGameByQueryPagination(String query, Pageable pageable) {
-        return gameRepository.findGamesByNameContaining(query, pageable);
+        return gameRepository.findGamesByNameContainingAndActiveTrue(query, pageable);
     }
 
     @Override
 	public Game findByName(String name) {
-		return gameRepository.findByName(name);
+        return gameRepository.findByNameAndActiveTrue(name);
 	}
 
 	
