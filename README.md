@@ -7,8 +7,8 @@ The web application will be implemented by using Java with Spring Framework.
 
 ### Part 2 - Database Desin
 ![alt DBDesign](https://i.imgur.com/of9bCGk.jpg)  
-[x] Design database
-[x] Design entity base on DB
+[x] Design database  
+[x] Design entity base on DB  
 
 ### Part 3 - Security
 This web page will have three roles, GUEST, USER(GAMER) and ADMIN.  
@@ -29,13 +29,13 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 
 ### Part 5 - User ability
 [x] View account detail  
-* [] Edit account detail  
+-[] Edit account detail  
 [x] Add game with time  
-* [] Edit game time  
-* [] Delete game time  
+-[] Edit game time  
+-[] Delete game time  
 [x] View list of game and number of user  
 [x] View gamer who play a specific game  
-* [] Sort list of user by number of following  
+-[] Sort list of user by number of following  
 [x] Make list of games searchable  
 [x] Can redirect to Gamer detail page/Game detail page from list of users/games  
 
@@ -43,8 +43,8 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 Two USER(GAMER) can connect with each other after they login and go to the other profile.  
 [x] View list of gamer  
 [x] Make list of gamer searchable  
-* [] Sort list of gamer base on the game current gamer play(Option 1)  
-* [] Sort by number of follower(Option 2)  
+-[] Sort list of gamer base on the game current gamer play(Option 1)  
+-[] Sort by number of follower(Option 2)  
 [x] Follow/Un-follow one gamer  
 [x] View Friend/Following list
 
