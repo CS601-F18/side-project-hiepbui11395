@@ -24,7 +24,8 @@ Games and Genre data will be fetch from GiantBomb database by using their suppor
 ADMIN will login and choose Fetch DB to get data/put new data into database.  
 [x] Fetch Genres data  
 [x] Fetch Games data  
-[] Because of the limitation of free API, make the fetching process delay every N request
+[x] Because of the limitation of free API, make the fetching process delay T time every N request
+[] Test the crawler
 
 ### Part 5 - User ability
 [x] View account detail  
@@ -32,13 +33,13 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 [x] View list of game and number of user  
 [x] View gamer who play a specific game  
 [] Sort list of user by number of following  
-[] Make table list of games searchable  
+[] Make list of games searchable  
 [x] Can redirect to Gamer detail page/Game detail page from list of users/games  
 
 ### Part 6 - Connecting people
 Two USER(GAMER) can connect with each other after they login and go to the other profile.  
 [x] View list of gamer  
-[] Make list of gamer searchable  
+[x] Make list of gamer searchable  
 [] Sort list of gamer base on the game current gamer play(Option 1)  
 [] Sort by number of follower(Option 2)  
 [x] Add friend/Following  

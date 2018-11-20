@@ -37,7 +37,7 @@
 </body>
 <script>
 	$(document).ready(function() {
-		$("#games").dataTable({
+        var gamesTable = $("#games").dataTable({
 			"bServerSide" : true,
 			"sAjaxSource" : "/api/games/getDataTable",
 			"bProcessing" : true,
@@ -58,6 +58,7 @@
                 "mData": 3
             }]
 		});
+        gamesTable.fnSetFilteringDelay(3000);
 	});
 </script>
 </html>

@@ -22,10 +22,9 @@ public class GameCrawler {
     private GameService gameService;
 
     @Scheduled(fixedDelay = 1800000)
-    public void reportCurrentTime() {
+    public void getGame() {
 
         long offset = gameService.getNumberOfGame();
-        while (offset < total) {
             String urlString = "https://www.giantbomb.com/api/games/?api_key=24a0f044a74d7d88224268e7cbc11c39007727fc&"
                     + "format=json&"
                     + "field_list=id,name&"
@@ -50,7 +49,7 @@ public class GameCrawler {
                 gameService.addGame(game, genres);
             }
             long getTo = offset + 100;
-            logger.info("\t Get from: " + offset + " - to: " + getTo);
-        }
+        logger.warn("\t Get from: " + offset + " - to: " + getTo);
+        logger.warn("Sleep for 30 minutes");
     }
 }

@@ -10,6 +10,7 @@ import hpbui.gamerportal.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -80,6 +81,11 @@ public class GameServiceImpl implements GameService {
     @Override
     public long getNumberOfGame() {
         return gameRepository.count();
+    }
+
+    @Override
+    public Page<Game> findGameByQueryPagination(String query, Pageable pageable) {
+        return gameRepository.findGamesByNameContaining(query, pageable);
     }
 
     @Override

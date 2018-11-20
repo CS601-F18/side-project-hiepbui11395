@@ -41,14 +41,21 @@ public class GameRestController {
 	}
 	
 	@GetMapping(value="/api/games/getDataTable")
-	public String gameDataTable(JQueryDataTable dataTable) {  
+    public String gameDataTable(JQueryDataTable dataTable) {
 		String sEcho = dataTable.getsEcho();
+        String query = dataTable.getsSearch();
 		long iTotalRecords; // total number of records (unfiltered)
 		long iTotalDisplayRecords;//value will be set when code filters companies by keyword
-
-		Page<Game> gameList = gameService.getAllPagination(PageRequest.of(
-				(dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
-				dataTable.getiDisplayLength()));
+        Page<Game> gameList;
+        if (query.isEmpty()) {
+            gameList = gameService.getAllPagination(PageRequest.of(
+                    (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
+                    dataTable.getiDisplayLength()));
+        } else {
+            gameList = gameService.findGameByQueryPagination(query,
+                    PageRequest.of((dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
+                            dataTable.getiDisplayLength()));
+        }
 		iTotalRecords = gameList.getTotalElements();
 		iTotalDisplayRecords = gameList.getTotalElements();
 		JsonObject dataTableResponse = new JsonObject();

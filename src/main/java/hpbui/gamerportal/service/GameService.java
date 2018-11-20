@@ -3,6 +3,7 @@ package hpbui.gamerportal.service;
 import hpbui.gamerportal.entity.Game;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 
@@ -22,4 +23,6 @@ public interface GameService {
 	Page<Game> getAllPagination(PageRequest pageRequest);
 
     long getNumberOfGame();
+
+    Page<Game> findGameByQueryPagination(String query, Pageable pageable);
 }
