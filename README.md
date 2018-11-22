@@ -25,7 +25,7 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 [x] Fetch Genres data  
 [x] Fetch Games data  
 [x] Because of the limitation of free API, make the fetching process delay T time every N request
-[] Test the crawler
+[x] Test the crawler
 
 ### Part 5 - User ability
 [x] View account detail  
@@ -50,8 +50,9 @@ Two USER(GAMER) can connect with each other after they login and go to the other
 
 ### Part 7 - Commenting/Chatting
 Two USER(GAMER) can communicate with each other after they login and go to the other profile.
-[] Add database to support comment function
-[] Implement comment function
+[x] Add database to support comment function
+[x] Implement comment function
+[x] Calculate overall score of account after it has new comment.
 
 ### Part 8 - Donating(Considering)
 One user can donate to the other (Mock only)

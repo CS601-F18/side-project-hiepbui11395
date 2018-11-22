@@ -41,7 +41,11 @@ public class GameCrawler {
                 game.setName(nameGame);
                 urlString = "https://www.giantbomb.com/api/game/" + idGame + "/?api_key=24a0f044a74d7d88224268e7cbc11c39007727fc&format=json&field_list=genres,name";
                 response = Utils.callGetApi(urlString);
-                JSONArray jsonGenreArray = new JSONObject(response).getJSONObject("results").getJSONArray("genres");
+                JSONObject jsonGenreObject = new JSONObject(response);
+                JSONArray jsonGenreArray = new JSONArray();
+                if (jsonGenreObject.has("genres")) {
+                    jsonGenreArray = new JSONObject(response).getJSONObject("results").getJSONArray("genres");
+                }
                 ArrayList<String> genres = new ArrayList<String>();
                 for (int j = 0; j < jsonGenreArray.length(); j++) {
                     genres.add(jsonGenreArray.getJSONObject(j).getString("name"));
