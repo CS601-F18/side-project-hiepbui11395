@@ -29,6 +29,12 @@ public class Account {
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
+    @Column
+    private int followers;
+
+    @Column
+    private Double overall;
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinTable(name = "gamer_portal.account_role",
 	joinColumns = {@JoinColumn(name="idAccount")},
@@ -109,14 +115,20 @@ public class Account {
 	public void setGames(Set<Game> games) {
 		this.games = games;
 	}
-	
-	
-//	public Set<AccountGame> getAccountGames() {
-//		return accountGames;
-//	}
-//
-//	public void setAccountGames(Set<AccountGame> accountGames) {
-//		this.accountGames = accountGames;
-//	}
 
+    public Double getOverall() {
+        return overall;
+    }
+
+    public void setOverall(Double overall) {
+        this.overall = overall;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(int followers) {
+        this.followers = followers;
+    }
 }

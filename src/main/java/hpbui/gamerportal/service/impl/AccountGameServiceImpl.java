@@ -25,9 +25,8 @@ public class AccountGameServiceImpl implements AccountGameService {
         entity.setEndTime(model.getEndTime());
         entity.setIdAccount(account.getId());
         entity.setIdGame(game.getId());
-//        entity.setAccount(account);
-//        entity.setGame(game);
         accountGameRepository.save(entity);
+        accountGameRepository.updateNumberOfGamer(game.getId());
     }
 
     @Override
@@ -36,5 +35,10 @@ public class AccountGameServiceImpl implements AccountGameService {
                 findAccountGamesByIdAccountAndIdGame(account.getId(), game.getId());
         GameWithTimeViewModel gameWithTime = new GameWithTimeViewModel(game,result);
         return gameWithTime;
+    }
+
+    @Override
+    public void deleteAccountGame(long accountGameId) {
+        accountGameRepository.deleteById(accountGameId);
     }
 }

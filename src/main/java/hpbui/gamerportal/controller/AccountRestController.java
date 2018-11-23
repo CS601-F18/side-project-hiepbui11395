@@ -7,10 +7,10 @@ import hpbui.gamerportal.entity.Account;
 import hpbui.gamerportal.entity.Game;
 import hpbui.gamerportal.entity.Relationship;
 import hpbui.gamerportal.entity.Role;
-import hpbui.gamerportal.model.JQueryDataTable;
 import hpbui.gamerportal.service.*;
 import hpbui.gamerportal.utils.Config;
 import hpbui.gamerportal.utils.Enums;
+import hpbui.gamerportal.utils.JQueryDataTable;
 import hpbui.gamerportal.utils.JsonResponse;
 import hpbui.gamerportal.viewmodel.FollowViewModel;
 import hpbui.gamerportal.viewmodel.GameAddViewModel;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,7 @@ public class AccountRestController {
     @Autowired
     RoleService roleService;
 
-	@PostMapping(path = "/account/games/add")
+    @PostMapping(path = "/api/account/games/add")
 	public JsonResponse addAccountGame(GameAddViewModel model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
         		getContext().getAuthentication().getPrincipal();
@@ -55,6 +56,13 @@ public class AccountRestController {
 		JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
 		return response;
 	}
+
+    @PostMapping(path = "api/account/games/delete/{id}")
+    public JsonResponse deleteAccoutnGame(@PathVariable long id) {
+        accountGameService.deleteAccountGame(id);
+        JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Delete success!");
+        return response;
+    }
 
 	@PostMapping(path = "/api/accounts/follow")
 	public JsonResponse changeRelationship(FollowViewModel model){
@@ -75,8 +83,9 @@ public class AccountRestController {
 		String sEcho = dataTable.getsEcho();
         String query = dataTable.getsSearch();
         Page<Account> gamerList;
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "followers"));
         Pageable pageable = PageRequest.of((dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
-                dataTable.getiDisplayLength());
+                dataTable.getiDisplayLength(), sort);
         if (query.isEmpty()) {
             Role role = roleService.findRoleByRoleName(Config.getInstance().getProperty("gamer"));
             gamerList = accountService.findAccountsByRole(role, pageable);
@@ -146,10 +155,6 @@ public class AccountRestController {
     @GetMapping(value = "/api/accounts/getAccountByGame/{id}")
     public String getAccountByGameDataTable(JQueryDataTable dataTable, @PathVariable long id) {
         String sEcho = dataTable.getsEcho();
-
-//        List<Account> listAccount = accountGameService.findAccountsByGame(id, PageRequest.of(
-//                (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
-//                dataTable.getiDisplayLength()));
         Page<Account> listAccount = accountService.findAccountsByGame(id, PageRequest.of(
                 (dataTable.getiDisplayStart() / dataTable.getiDisplayLength()),
                 dataTable.getiDisplayLength()));

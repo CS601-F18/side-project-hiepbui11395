@@ -1,4 +1,4 @@
-package hpbui.gamerportal.model;
+package hpbui.gamerportal.utils;
 
 public class JQueryDataTable {
 

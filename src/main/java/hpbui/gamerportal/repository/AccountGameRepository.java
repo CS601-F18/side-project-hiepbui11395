@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface AccountGameRepository extends PagingAndSortingRepository<AccountGame, Long> {
+public interface AccountGameRepository extends PagingAndSortingRepository<AccountGame, Long>, AccountGameRepositoryCustom {
     List<AccountGame> findAccountGamesByIdAccountAndIdGame(Long idAccount, Long idGame);
 
     @Query(value = "SELECT * FROM gamer_portal.account_game WHERE idGame = ?1 GROUP BY idGame, idAccount",

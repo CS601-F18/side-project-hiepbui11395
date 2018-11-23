@@ -6,9 +6,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Utils {
     private final static String USER_AGENT = "Mozilla/5.0";
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 	public static String callGetApi(String url) {
 		URL obj;
         StringBuffer response = new StringBuffer();
@@ -53,4 +56,8 @@ public class Utils {
 		}
 		return time;
 	}
+
+    public static String convertTimeStamp(Timestamp timestamp) {
+        return dateFormat.format(timestamp);
+    }
 }

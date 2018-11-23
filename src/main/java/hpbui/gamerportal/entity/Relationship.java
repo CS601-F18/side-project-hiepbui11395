@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "gamer_portal.relationship")
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(name = "updateNumberOfFollower",
+                procedureName = "gamer_portal.updateNumberOfFollower")})
 public class Relationship {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

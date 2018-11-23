@@ -31,6 +31,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             relationship.setType(relationshipType);
         }
         relationshipRepository.save(relationship);
+        relationshipRepository.updateNumbefOfFollower(accountTo.getId());
     }
 
     @Override
@@ -41,9 +42,9 @@ public class RelationshipServiceImpl implements RelationshipService {
     @Override
     public List<Account> findFriend(Long accountId, Pageable pageable) {
         List<Account> listAccount = new ArrayList<>();
-        Page<Relationship> listRelationship = relationshipRepository.findByIdAccountFrom(accountId, pageable);
+        Page<Relationship> listRelationship = relationshipRepository.findByIdAccountTo(accountId, pageable);
         for (Relationship relationship : listRelationship) {
-            listAccount.add(relationship.getAccountTo());
+            listAccount.add(relationship.getAccountFrom());
         }
         return listAccount;
     }

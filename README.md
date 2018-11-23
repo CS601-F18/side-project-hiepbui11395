@@ -3,6 +3,14 @@ Gamer portal is a page for gamer to find and connect with others who have the sa
 
 ### Part 1 - System Design
 The web application will be implemented by using Java with Spring Framework.
+The project contain many package:
+- config: contain the configuration file(security, url, ...)
+- controller: contain controllers and rest controllers
+- entity: contain model of each table from db
+- repository: connection between web application and db
+- service: contain logic code
+- utils: contain utilities such as Config File, Enums, Datatable, ...
+- viewmodel: custom model for passing data from controller to view.
 
 
 ### Part 2 - Database Desin
@@ -29,13 +37,12 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 
 ### Part 5 - User ability
 [x] View account detail  
--[] Edit account detail  
+[x] Fix the account detail page to show more information.  
 [x] Add game with time  
--[] Edit game time  
--[] Delete game time  
+[x] Delete game time  
 [x] View list of game and number of user  
 [x] View gamer who play a specific game  
--[] Sort list of user by number of following  
+[x] Sort list of user by number of following  
 [x] Make list of games searchable  
 [x] Can redirect to Gamer detail page/Game detail page from list of users/games  
 
@@ -43,16 +50,14 @@ ADMIN will login and choose Fetch DB to get data/put new data into database.
 Two USER(GAMER) can connect with each other after they login and go to the other profile.  
 [x] View list of gamer  
 [x] Make list of gamer searchable  
--[] Sort list of gamer base on the game current gamer play(Option 1)  
--[] Sort by number of follower(Option 2)  
+[x] Sort by number of gamer(Option 2)  
 [x] Follow/Un-follow one gamer  
 [x] View Friend/Following list
 
 ### Part 7 - Commenting/Chatting
-Two USER(GAMER) can communicate with each other after they login and go to the other profile.
-[x] Add database to support comment function
-[x] Implement comment function
-[x] Calculate overall score of account after it has new comment.
-
-### Part 8 - Donating(Considering)
-One user can donate to the other (Mock only)
+Two USER(GAMER) can communicate with each other after they login and go to the other profile.  
+[x] Add database to support comment function  
+[x] Implement comment function  
+[x] Calculate overall score of account after it has new comment.  
+[x] Show a list of comment.  
+[x] Sort list of comment by comment time.  

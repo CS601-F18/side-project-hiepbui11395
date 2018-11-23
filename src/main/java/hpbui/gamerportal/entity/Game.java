@@ -16,6 +16,9 @@ public class Game {
 	@Column(length = 1, nullable = false)
 	private boolean active;
 
+    @Column
+    private int numberOfGamer;
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "gamer_portal.game_genre", 
 	joinColumns = {@JoinColumn(name="idGame")},
@@ -68,8 +71,13 @@ public class Game {
 		this.accounts = accounts;
 	}
 
-	
-	
+    public int getNumberOfGamer() {
+        return numberOfGamer;
+    }
+
+    public void setNumberOfGamer(int numberOfGamer) {
+        this.numberOfGamer = numberOfGamer;
+    }
 //	public Set<AccountGame> getAccountGames() {
 //		return accountGames;
 //	}

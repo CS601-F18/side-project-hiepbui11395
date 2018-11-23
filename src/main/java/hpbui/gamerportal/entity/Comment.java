@@ -1,6 +1,7 @@
 package hpbui.gamerportal.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,7 @@ import java.util.List;
 @Table(name = "gamer_portal.comments")
 @NamedStoredProcedureQueries({
         @NamedStoredProcedureQuery(name = "updateOverallScore",
-                procedureName = "gamer_portal.updateOverallScore")
-})
+                procedureName = "gamer_portal.updateOverallScore")})
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,8 @@ public class Comment {
     private long fromUserId;
 
     private long toUserId;
+
+    private Timestamp commentTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fromUserId", insertable = false, updatable = false)
@@ -44,11 +46,15 @@ public class Comment {
     @JoinColumn(name = "parentId")
     private Comment parentComment;
 
-    public Comment(String text, int score, long fromUserId, long toUserId) {
+    public Comment() {
+    }
+
+    public Comment(String text, int score, long fromUserId, long toUserId, Timestamp commentTime) {
         this.text = text;
         this.score = score;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
+        this.commentTime = commentTime;
     }
 
     public Long getId() {
@@ -105,5 +111,29 @@ public class Comment {
 
     public void setToUserId(long toUserId) {
         this.toUserId = toUserId;
+    }
+
+    public Timestamp getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(Timestamp commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public Account getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(Account fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public Account getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(Account toUser) {
+        this.toUser = toUser;
     }
 }

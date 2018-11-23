@@ -52,7 +52,7 @@ public class GameCrawler {
                 }
                 gameService.addGame(game, genres);
             }
-            long getTo = offset + 100;
+        long getTo = gameService.getNumberOfGame();
         logger.warn("\t Get from: " + offset + " - to: " + getTo);
         logger.warn("Sleep for 30 minutes");
     }
