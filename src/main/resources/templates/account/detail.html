@@ -37,8 +37,13 @@
                                         <th:block th:each="accountGame: ${gameWithTime.gameTimes}">
                                             <li>
                                                 <span th:utext="${accountGame.gameTime}"></span>
-                                                <button th:value="${accountGame.id}" onclick="btn_click(this)">Delete
-                                                </button>
+                                                <th:block sec:authorize="isAuthenticated()">
+                                                    <div th:if="${#authentication.principal.username == account.username}">
+                                                        <button th:value="${accountGame.id}" onclick="btn_click(this)">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </th:block>
                                             </li>
                                         </th:block>
 
@@ -48,9 +53,11 @@
                         </th:block>
                         </tbody>
                     </table>
-                    <div th:if="${#authentication.principal.username == account.username}">
-                        <button id="myBtn">Add games</button>
-                    </div>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div th:if="${#authentication.principal.username == account.username}">
+                            <button id="myBtn">Add games</button>
+                        </div>
+                    </th:block>
                 </li>
             </ul>
         </div>
@@ -67,77 +74,57 @@
                 <tbody>
                 </tbody>
             </table>
-            <div th:if="${#authentication.principal.username != account.username}">
-                <form id="formComment">
-                    Content: <textarea type="text" name="text" data-validation="content"></textarea><br/>
-                    Score(1-5): <input type="text" name="score" data-validation="score"/><br/>
-                    <input type="text" hidden="hidden" name="toUserId" th:value="${account.id}"/>
-                    <button type="submit" id="btnAddComment">Comment</button>
-                </form>
-            </div>
+            <th:block sec:authorize="isAuthenticated()">
+                <div th:if="${#authentication.principal.username != account.username}">
+                    <form id="formComment">
+                        Content: <textarea type="text" name="text" data-validation="content"></textarea><br/>
+                        Score(1-5): <input type="text" name="score" data-validation="score"/><br/>
+                        <input type="text" hidden="hidden" name="toUserId" th:value="${account.id}"/>
+                        <button type="submit" id="btnAddComment">Comment</button>
+                    </form>
+                </div>
+            </th:block>
         </div>
     </div>
 
     <th:block th:include="/_footer"></th:block>
 
 
-    <div th:if="${#authentication.principal.username == account.username}">
+    <th:block sec:authorize="isAuthenticated()">
+        <div th:if="${#authentication.principal.username == account.username}">
         <!-- The Modal -->
-        <div id="addGameModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <h2>Add game</h2>
-                </div>
-                <div class="modal-body">
-                    <form autocomplete="off">
-                        <div class="autocomplete">
-                            Game: <input id="gameName" type="text" name="game" required/>
-                        </div>
-                        <br/> <label for="startTime">Start time: </label> <input
-                            id="startTime" type="time" name="startTime"><br/> <label
-                            for="endTime">End time: </label> <input id="endTime" type="time"
-                                                                    name="endTime"><br/>
-                        <button id="btnAddGame">Submit</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <h3></h3>
+            <div id="addGameModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <h2>Add game</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form autocomplete="off">
+                            <div class="autocomplete">
+                                Game: <input id="gameName" type="text" name="game" required/>
+                            </div>
+                            <br/> <label for="startTime">Start time: </label> <input
+                                id="startTime" type="time" name="startTime"><br/> <label
+                                for="endTime">End time: </label> <input id="endTime" type="time"
+                                                                        name="endTime"><br/>
+                            <button id="btnAddGame">Submit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <h3></h3>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </th:block>
+
 
 </body>
 <script>
 
     $(document).ready(function() {
-        //Add game function
-		$("#btnAddGame").click(function(e) {
-            e.preventDefault();
-            let startTime = $('#startTime').val().split(':');
-            let startTimeMinutes = (+startTime[0]) * 60 + (+startTime[1]);
-            let endTime = $('#endTime').val().split(':');
-            let endTimeMinutes = (+endTime[0])*60 + (+endTime[1]);
-
-			$.ajax({
-				type : "POST",
-                url: "/api/account/games/add",
-				data : {
-					name : $("#gameName").val(),
-					startTime : startTimeMinutes,
-					endTime : endTimeMinutes
-				},
-				success : function(result) {
-                    location.reload();
-				},
-				error : function(result) {
-					alert('error');
-				}
-			});
-		});
-
         var followingTable = $("#following").DataTable({
             "bServerSide": true,
             "sAjaxSource": "/api/accounts/getFriendDataTable/" + [[${account.id}]],
@@ -180,6 +167,31 @@
             }]
         })
 
+        //Add game function
+        $("#btnAddGame").click(function (e) {
+            e.preventDefault();
+            let startTime = $('#startTime').val().split(':');
+            let startTimeMinutes = (+startTime[0]) * 60 + (+startTime[1]);
+            let endTime = $('#endTime').val().split(':');
+            let endTimeMinutes = (+endTime[0]) * 60 + (+endTime[1]);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/accountGames/add",
+                data: {
+                    name: $("#gameName").val(),
+                    startTime: startTimeMinutes,
+                    endTime: endTimeMinutes
+                },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        });
+
         $("#btnAddComment").click(function (e) {
             e.preventDefault();
             var form = $("#formComment");
@@ -202,7 +214,7 @@
                         commentTable.ajax.reload();
                     },
                     error: function (result) {
-                        alert('error');
+                        window.location.href = result.responseText
                     }
                 });
             }
@@ -215,7 +227,7 @@
         var accountGameId = $(btn).attr("value");
         $.ajax({
             type: "POST",
-            url: "/api/account/games/delete/" + accountGameId,
+            url: "/api/accountGames/delete/" + accountGameId,
             success: function (result) {
                 location.reload();
             },
@@ -225,46 +237,50 @@
         });
     }
 </script>
-<script th:if="${#authentication.principal.username == account.username}">
-    let games;
 
-    //Show the modal
-    $.ajax({
-        type: "GET",
-        url: "/api/games",
-        success: function (result) {
-            games = result;
-            autocomplete(document.getElementById("gameName"), games);
-        },
-        error: function (result) {
-            // do something.
+<th:block sec:authorize="isAuthenticated()">
+    <script th:if="${#authentication.principal.username == account.username}">
+        let games;
+
+        //Show the modal
+        $.ajax({
+            type: "GET",
+            url: "/api/games",
+            success: function (result) {
+                games = result;
+                autocomplete(document.getElementById("gameName"), games);
+            },
+            error: function (result) {
+                // do something.
+            }
+        });
+
+        // Get the modal
+        let modal = document.getElementById('addGameModal');
+
+        // Get the button that opens the modal
+        let btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        let span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
         }
-    });
 
-    // Get the modal
-    let modal = document.getElementById('addGameModal');
-
-    // Get the button that opens the modal
-    let btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
-    let span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-        modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
             modal.style.display = "none";
         }
-    }
-</script>
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</th:block>
+
 </html>

@@ -55,19 +55,19 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		account.setActive(true);
         List<Role> userRole = new ArrayList<>();
-        userRole.add(roleRepository.findByRoleName("GAMER"));
+        userRole.add(roleRepository.findByRoleName("ROLE_GAMER"));
 		account.setRoles(new HashSet<Role>(userRole));
 		accountRepository.save(account);
 	}
 
     @Override
-    public Page<Account> findAccountsByRole(Role role, Pageable pageable) {
-        return accountRepository.findAccountsByRolesAndActiveTrue(role, pageable);
+    public Page<Account> findAccountsByRole(Role role, Long id, Pageable pageable) {
+        return accountRepository.findAccountsByRolesAndActiveTrueAndIdNot(role, id, pageable);
     }
 
     @Override
-    public Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Pageable pageable) {
-        return accountRepository.findAccountsByRolesAndUsernameContainingAndActiveTrue(role, query, pageable);
+    public Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Long id, Pageable pageable) {
+        return accountRepository.findAccountsByRolesAndUsernameContainingAndActiveTrueAndIdNot(role, query, id, pageable);
     }
 
     @Override

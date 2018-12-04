@@ -42,7 +42,7 @@ public interface AccountService {
      * @param pageable
      * @return
      */
-    Page<Account> findAccountsByRole(Role role, Pageable pageable);
+    Page<Account> findAccountsByRole(Role role, Long id, Pageable pageable);
 
     /**
      * Retrieve Accounts by role and username
@@ -51,7 +51,7 @@ public interface AccountService {
      * @param pageable
      * @return
      */
-    Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Pageable pageable);
+    Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Long id, Pageable pageable);
 
     /**
      * Retrieve Accounts by gameId

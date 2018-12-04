@@ -15,9 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 public class CommentRestController {
@@ -32,12 +33,14 @@ public class CommentRestController {
      */
     @PostMapping(value = "/api/comments/add")
     @ResponseStatus(value = HttpStatus.OK)
-    public void addComment(CommentViewModel model) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.
-                getContext().getAuthentication().getPrincipal();
-        Account accountFrom = accountService.findAccountByUsername(userDetails.getUsername());
+    public ResponseEntity addComment(CommentViewModel model, Principal user) {
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("/login");
+        }
+        Account accountFrom = accountService.findAccountByUsername(user.getName());
         commentService.addComment(accountFrom.getId(), model.getToUserId(),
                 model.getText(), model.getScore(), model.getParentId());
+        return ResponseEntity.ok(null);
     }
 
     /**

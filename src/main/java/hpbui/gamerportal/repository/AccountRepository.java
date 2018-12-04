@@ -12,9 +12,9 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, L
 
     Account findAccountByUsernameAndActiveTrue(String username);
 
-    Page<Account> findAccountsByRolesAndActiveTrue(Role role, Pageable pageable);
+    Page<Account> findAccountsByRolesAndActiveTrueAndIdNot(Role role, Long id, Pageable pageable);
 
-    Page<Account> findAccountsByRolesAndUsernameContainingAndActiveTrue(Role role, String username, Pageable pageable);
+    Page<Account> findAccountsByRolesAndUsernameContainingAndActiveTrueAndIdNot(Role role, String username, Long id, Pageable pageable);
 
     Page<Account> findAccountsByGamesContainingAndActiveTrue(Game game, Pageable pageable);
 }
