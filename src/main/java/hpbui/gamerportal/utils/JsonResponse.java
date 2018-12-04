@@ -1,5 +1,8 @@
 package hpbui.gamerportal.utils;
 
+/**
+ * JsonResponse class, contain status and data
+ */
 public class JsonResponse {
     public static final String STATUS_SUCCESS = "success";
     public static final String STATUS_FAIL = "fail";

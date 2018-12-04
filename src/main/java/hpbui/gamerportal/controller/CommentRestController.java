@@ -26,6 +26,10 @@ public class CommentRestController {
     @Autowired
     AccountService accountService;
 
+    /**
+     * API add a comment
+     * @param model
+     */
     @PostMapping(value = "/api/comments/add")
     @ResponseStatus(value = HttpStatus.OK)
     public void addComment(CommentViewModel model) {
@@ -36,6 +40,12 @@ public class CommentRestController {
                 model.getText(), model.getScore(), model.getParentId());
     }
 
+    /**
+     * API get list comments of one user
+     * @param dataTable
+     * @param userId
+     * @return
+     */
     @GetMapping(value = "/api/comments/{userId}")
     public String getComments(JQueryDataTable dataTable, @PathVariable long userId) {
         String sEcho = dataTable.getsEcho();

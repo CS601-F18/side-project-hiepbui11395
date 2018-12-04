@@ -11,6 +11,10 @@ public class Config {
     private Config() {
     }
 
+    /**
+     * Get configuration file
+     * @return
+     */
     public static synchronized Properties getInstance() {
         if (instance == null) {
             FileInputStream is = null;

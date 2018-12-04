@@ -44,6 +44,11 @@ public class Utils {
 		return response.toString();
 	}
 
+	/**
+	 * Convert from minutes to string time
+	 * @param minutes
+	 * @return time in string
+	 */
 	public static String convertFromIntToTime(int minutes){
 		String startTime = "00:00";
 		String time = "";
@@ -57,6 +62,11 @@ public class Utils {
 		return time;
 	}
 
+	/**
+	 * Convert from Timestamp to String time
+	 * @param timestamp
+	 * @return time in string
+	 */
     public static String convertTimeStamp(Timestamp timestamp) {
         return dateFormat.format(timestamp);
     }

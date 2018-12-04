@@ -22,6 +22,10 @@ public class GenreController {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 
+	/**
+	 * Retrieve genres from third party API
+	 * @return
+	 */
 	@GetMapping(path="/admin/genre/get")
 	public String getGenres() {
 		int offset = 0;

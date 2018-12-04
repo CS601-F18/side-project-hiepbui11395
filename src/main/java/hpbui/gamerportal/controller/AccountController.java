@@ -24,6 +24,11 @@ public class AccountController {
 	@Autowired
 	private AccountGameService accountGameService;
 
+	/**
+	 * Get Account Detail page
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(path = "/account/detail")
 	public String accountDetail(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
@@ -38,6 +43,12 @@ public class AccountController {
 		return "account/detail";
 	}
 
+	/**
+	 * Get Account Info page
+	 * @param model
+	 * @param id
+	 * @return
+	 */
     @GetMapping(path = "/accounts/{id}")
     public String info(Model model, @PathVariable long id) {
         Account account = accountService.findAccountById(id);
@@ -50,14 +61,12 @@ public class AccountController {
         return "account/detail";
     }
 
+	/**
+	 * Get List Accounts page
+	 * @return
+	 */
 	@GetMapping(path = "/accounts")
 	public String index(){
 		return "account/index";
 	}
-
-    @PostMapping(path = "/accounts/games/delete/{id}")
-    public String deleteAccoutnGame(@PathVariable long id) {
-        accountGameService.deleteAccountGame(id);
-        return "redirect:/account/detail";
-    }
 }

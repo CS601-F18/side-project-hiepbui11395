@@ -41,20 +41,6 @@ public class GameServiceImpl implements GameService {
 		}
 	}
 
-	@Override
-	public void save(Game game) {
-		gameRepository.save(game);
-	}
-
-	@Override
-    public void delete(Long id) {
-		Optional<Game> entity = gameRepository.findById(id);
-		if(entity.isPresent()) {
-			entity.get().setActive(false);
-			gameRepository.save(entity.get());
-		}
-	}
-
 
 	@Override
 	public void addGame(Game game, ArrayList<String> genres) {

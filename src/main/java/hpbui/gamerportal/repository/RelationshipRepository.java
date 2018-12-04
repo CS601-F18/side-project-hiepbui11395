@@ -8,7 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface RelationshipRepository extends PagingAndSortingRepository<Relationship, Long>, RelationshipRepositoryCustom {
     Relationship findByIdAccountFromAndIdAccountTo(Long idAccountFrom, Long idAccountTo);
 
-    Page<Relationship> findByIdAccountFrom(Long idAccountFrom, Pageable pageable);
-
     Page<Relationship> findByIdAccountTo(Long idAccountTo, Pageable pageable);
 }

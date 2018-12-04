@@ -1,7 +1,5 @@
 package hpbui.gamerportal.viewmodel;
 
-import java.util.Date;
-
 public class GameAddViewModel {
 	private String name;
 	private int startTime;

@@ -29,6 +29,10 @@ public class GameRestController {
 
 	Gson gson = new Gson();
 
+	/**
+	 * API get list of games
+	 * @return List of games
+	 */
 	@GetMapping(value="/api/games")
 	public List<GameViewModel> getAll() {
 		Iterable<Game> games = gameService.findAll();
@@ -38,7 +42,12 @@ public class GameRestController {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * API get list of games
+	 * @param dataTable
+	 * @return List of games in DataTable
+	 */
 	@GetMapping(value="/api/games/getDataTable")
     public String gameDataTable(JQueryDataTable dataTable) {
 		String sEcho = dataTable.getsEcho();

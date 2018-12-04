@@ -16,6 +16,10 @@ public class LoginController {
 	@Autowired
     private AccountServiceImpl accountServiceImpl;
 
+    /**
+     * Get Login page
+     * @return
+     */
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
@@ -23,6 +27,10 @@ public class LoginController {
         return modelAndView;
     }
 
+    /**
+     * Get Registration page
+     * @return
+     */
     @RequestMapping(value="/registration", method = RequestMethod.GET)
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
@@ -32,6 +40,12 @@ public class LoginController {
         return modelAndView;
     }
 
+    /**
+     * Handle register process
+     * @param account
+     * @param bindingResult
+     * @return
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid Account account, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();

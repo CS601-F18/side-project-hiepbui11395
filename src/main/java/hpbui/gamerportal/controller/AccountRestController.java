@@ -43,6 +43,11 @@ public class AccountRestController {
     @Autowired
     RoleService roleService;
 
+    /**
+     * API add AccountGame
+     * @param model
+     * @return
+     */
     @PostMapping(path = "/api/account/games/add")
 	public JsonResponse addAccountGame(GameAddViewModel model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
@@ -57,6 +62,11 @@ public class AccountRestController {
 		return response;
 	}
 
+    /**
+     * API delete AccountGame
+     * @param id
+     * @return
+     */
     @PostMapping(path = "api/account/games/delete/{id}")
     public JsonResponse deleteAccoutnGame(@PathVariable long id) {
         accountGameService.deleteAccountGame(id);
@@ -64,6 +74,11 @@ public class AccountRestController {
         return response;
     }
 
+    /**
+     * API to change relationship
+     * @param model
+     * @return
+     */
 	@PostMapping(path = "/api/accounts/follow")
 	public JsonResponse changeRelationship(FollowViewModel model){
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.
@@ -75,6 +90,11 @@ public class AccountRestController {
 		return response;
 	}
 
+    /**
+     * API to get list of gamers
+     * @param dataTable
+     * @return
+     */
 	@GetMapping(value="/api/accounts/getDataTable")
     public String getGamerDataTable(JQueryDataTable dataTable) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.
@@ -125,6 +145,12 @@ public class AccountRestController {
 		return dataTableResponse.toString();
 	}
 
+    /**
+     * API to get list of friend
+     * @param dataTable
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/api/accounts/getFriendDataTable/{id}")
     public String getFriendDataTable(JQueryDataTable dataTable, @PathVariable long id) {
         Account currentAccount = accountService.findAccountById(id);
@@ -152,6 +178,12 @@ public class AccountRestController {
         return dataTableResponse.toString();
     }
 
+    /**
+     * API to get list gamers of specific game
+     * @param dataTable
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/api/accounts/getAccountByGame/{id}")
     public String getAccountByGameDataTable(JQueryDataTable dataTable, @PathVariable long id) {
         String sEcho = dataTable.getsEcho();

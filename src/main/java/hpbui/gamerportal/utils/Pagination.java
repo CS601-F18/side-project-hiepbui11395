@@ -1,11 +1,11 @@
 package hpbui.gamerportal.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.query.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pagination<T> {
 	private int totalRecord;
