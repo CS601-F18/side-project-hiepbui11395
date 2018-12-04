@@ -15,9 +15,9 @@ public interface AccountService {
     
     void addAccount(Account account);
 
-    Page<Account> findAccountsByRole(Role role, Pageable pageable);
+    Page<Account> findAccountsByRole(Role role, Long id, Pageable pageable);
 
-    Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Pageable pageable);
+    Page<Account> findAccountsByRoleAndUsernameContain(String query, Role role, Long id, Pageable pageable);
 
     Page<Account> findAccountsByGame(long gameId, Pageable pageable);
 }

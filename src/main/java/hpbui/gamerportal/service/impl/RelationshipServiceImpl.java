@@ -4,6 +4,7 @@ import hpbui.gamerportal.entity.Account;
 import hpbui.gamerportal.entity.Relationship;
 import hpbui.gamerportal.repository.RelationshipRepository;
 import hpbui.gamerportal.service.RelationshipService;
+import hpbui.gamerportal.utils.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,8 @@ public class RelationshipServiceImpl implements RelationshipService {
     @Override
     public List<Account> findFriend(Long accountId, Pageable pageable) {
         List<Account> listAccount = new ArrayList<>();
-        Page<Relationship> listRelationship = relationshipRepository.findByIdAccountTo(accountId, pageable);
+        Page<Relationship> listRelationship = relationshipRepository.findByIdAccountToAndTypeAndIdAccountFromNot(
+                accountId, Enums.Relationship.FOLLOWING.ordinal(), accountId, pageable);
         for (Relationship relationship : listRelationship) {
             listAccount.add(relationship.getAccountFrom());
         }

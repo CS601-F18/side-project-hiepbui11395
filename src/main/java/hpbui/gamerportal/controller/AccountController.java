@@ -6,13 +6,13 @@ import hpbui.gamerportal.service.AccountGameService;
 import hpbui.gamerportal.service.AccountService;
 import hpbui.gamerportal.viewmodel.GameWithTimeViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,8 @@ public class AccountController {
 	@Autowired
 	private AccountGameService accountGameService;
 
-	@GetMapping(path = "/account/detail")
+    @Secured({"ROLE_GAMER", "ROLE_ADMIN"})
+    @GetMapping(path = "/account/detail")
 	public String accountDetail(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
         		getContext().getAuthentication().getPrincipal();
@@ -55,9 +56,4 @@ public class AccountController {
 		return "account/index";
 	}
 
-    @PostMapping(path = "/accounts/games/delete/{id}")
-    public String deleteAccoutnGame(@PathVariable long id) {
-        accountGameService.deleteAccountGame(id);
-        return "redirect:/account/detail";
-    }
 }

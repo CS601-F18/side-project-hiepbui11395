@@ -31,13 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/genre/**").permitAll()
-                .antMatchers("/game/**").permitAll()
-                .antMatchers("/account/**").authenticated()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
+                .anyRequest().permitAll().and().csrf().disable().formLogin()
                 .loginPage("/login").permitAll()
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/", true)
@@ -45,8 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
-                .accessDeniedPage("/access-denied");
+                .logoutSuccessUrl("/").and().exceptionHandling();
     }
 
     @Override

@@ -19,6 +19,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -43,7 +47,8 @@ public class AccountRestController {
     @Autowired
     RoleService roleService;
 
-    @PostMapping(path = "/api/account/games/add")
+    @Secured({"ROLE_GAMER", "ROLE_ADMIN"})
+    @PostMapping(path = "/api/accountGames/add")
 	public JsonResponse addAccountGame(GameAddViewModel model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.
         		getContext().getAuthentication().getPrincipal();
@@ -57,7 +62,8 @@ public class AccountRestController {
 		return response;
 	}
 
-    @PostMapping(path = "api/account/games/delete/{id}")
+    @Secured({"ROLE_GAMER", "ROLE_ADMIN"})
+    @PostMapping(path = "api/accountGames/delete/{id}")
     public JsonResponse deleteAccoutnGame(@PathVariable long id) {
         accountGameService.deleteAccountGame(id);
         JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Delete success!");
@@ -65,21 +71,26 @@ public class AccountRestController {
     }
 
 	@PostMapping(path = "/api/accounts/follow")
-	public JsonResponse changeRelationship(FollowViewModel model){
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.
-			getContext().getAuthentication().getPrincipal();
-        Account accountFrom = accountService.findAccountByUsername(userDetails.getUsername());
+    public ResponseEntity changeRelationship(FollowViewModel model, Principal user) {
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("/login");
+        }
+        Account accountFrom = accountService.findAccountByUsername(user.getName());
 		Account accountTo = accountService.findAccountById(model.getId());
 		relationshipService.changeRelationship(accountFrom, accountTo, model.getRelationshipType());
 		JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
-		return response;
+        return ResponseEntity.ok(response);
 	}
 
 	@GetMapping(value="/api/accounts/getDataTable")
-    public String getGamerDataTable(JQueryDataTable dataTable) {
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.
-				getContext().getAuthentication().getPrincipal();
-        Account currentAccount = accountService.findAccountByUsername(userDetails.getUsername());
+    public String getGamerDataTable(JQueryDataTable dataTable, Principal user) {
+        UserDetails userDetails;
+        Account currentAccount = null;
+        Long id = Long.valueOf(0);
+        if (user != null) {
+            currentAccount = accountService.findAccountByUsername(user.getName());
+            id = currentAccount.getId();
+        }
 		String sEcho = dataTable.getsEcho();
         String query = dataTable.getsSearch();
         Page<Account> gamerList;
@@ -88,10 +99,10 @@ public class AccountRestController {
                 dataTable.getiDisplayLength(), sort);
         if (query.isEmpty()) {
             Role role = roleService.findRoleByRoleName(Config.getInstance().getProperty("gamer"));
-            gamerList = accountService.findAccountsByRole(role, pageable);
+            gamerList = accountService.findAccountsByRole(role, id, pageable);
         } else {
             Role role = roleService.findRoleByRoleName(Config.getInstance().getProperty("gamer"));
-            gamerList = accountService.findAccountsByRoleAndUsernameContain(query, role, pageable);
+            gamerList = accountService.findAccountsByRoleAndUsernameContain(query, role, id, pageable);
         }
         long iTotalRecords = gamerList.getTotalElements();
         long iTotalDisplayRecords = gamerList.getTotalElements();
@@ -113,7 +124,10 @@ public class AccountRestController {
             //Add game
             row.add(genreStr.toString());
             //Add relationship
-            Relationship relationship = relationshipService.findRelationship(currentAccount.getId(), gamer.getId());
+            Relationship relationship = null;
+            if (currentAccount != null) {
+                relationship = relationshipService.findRelationship(currentAccount.getId(), gamer.getId());
+            }
             if (relationship == null || relationship.getType() == Enums.Relationship.NO_RELATION.ordinal()) {
                 row.add(Enums.Relationship.NO_RELATION.ordinal());
             } else {
