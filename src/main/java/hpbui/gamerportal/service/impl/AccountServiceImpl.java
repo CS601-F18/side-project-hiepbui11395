@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 		account.setActive(true);
         List<Role> userRole = new ArrayList<>();
         userRole.add(roleRepository.findByRoleName("ROLE_GAMER"));
-		account.setRoles(new HashSet<Role>(userRole));
+        account.setRoles(new HashSet<>(userRole));
 		accountRepository.save(account);
 	}
 
@@ -78,8 +78,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 
     @Override
     public Account findAccountById(Long id) {
-		Account entity = accountRepository.findById(id)==null?null:accountRepository.findById(id).get();
-		return entity;
+        return accountRepository.findById(id) == null ? null : accountRepository.findById(id).get();
 	}
 
 
@@ -94,7 +93,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService{
 
 		Set<Role> roles = account.getRoles();
 
-		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> grantList = new ArrayList<>();
 
 		for(Role role : roles) {
 			GrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());

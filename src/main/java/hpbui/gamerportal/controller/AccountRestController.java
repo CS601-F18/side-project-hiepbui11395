@@ -60,11 +60,13 @@ public class AccountRestController {
         Account account = accountService.findAccountByUsername(userDetails.getUsername());
 		Game game = gameService.findByName(model.getName());
 		if(game == null){
-			//TODO: handle if game not found
-		}
-		accountGameService.addAccountGame(model,game,account);
-		JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
-		return response;
+            JsonResponse response = new JsonResponse(JsonResponse.STATUS_ERROR, "Error occur!");
+            return response;
+        } else {
+            accountGameService.addAccountGame(model, game, account);
+            JsonResponse response = new JsonResponse(JsonResponse.STATUS_SUCCESS, "Add success!");
+            return response;
+        }
 	}
 
     /**
