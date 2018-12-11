@@ -39,6 +39,8 @@ public class AccountGameServiceImpl implements AccountGameService {
 
     @Override
     public void deleteAccountGame(long accountGameId) {
+        AccountGame accountGame = accountGameRepository.findById(accountGameId).get();
         accountGameRepository.deleteById(accountGameId);
+        accountGameRepository.updateNumberOfGamer(accountGame.getIdGame());
     }
 }

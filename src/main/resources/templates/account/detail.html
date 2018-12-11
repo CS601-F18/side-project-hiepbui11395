@@ -202,6 +202,8 @@
                     },
                     score: {
                         required: true,
+                        min: 1,
+                        max: 5,
                     }
                 }
             });
@@ -211,7 +213,8 @@
                     url: "/api/comments/add",
                     data: form.serialize(),
                     success: function (result) {
-                        commentTable.ajax.reload();
+                        // commentTable.ajax.reload();
+                        location.reload();
                     },
                     error: function (result) {
                         window.location.href = result.responseText
